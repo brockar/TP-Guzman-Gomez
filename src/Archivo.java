@@ -77,14 +77,15 @@ public class Archivo {
                         pro.setEquipo(e1);
                     }
                     //!Hasta aca esta bien
-                    //To do: arreglar errores del recuento de puntos.
+                    //!No funciona porque equipo es null porque apuesta por empate
+                    //!To do: arreglar errores del recuento de puntos.
 
                     //busca el ResultadoEnum del equipo que aposto
 
+                    //System.out.println(pro.getEquipo().getNombre());
+                    System.out.println(aP.get(pro.getNumPartido()).resultado(pro.getEquipo())+ "\n");
 
-                    System.out.println(aP.get(pro.getNumPartido()).resultado(pro.getEquipo()));
-                    //pro.setResultado();
-                    //pro.setResultado(aP.get(pro.getNumPartido()).resultado(pro.getEquipo()));
+//                    hacer un if para comprobar si tiene o no equipo, si no tiene equipo manda la consulta sin equipo
 
                     //Agrega los puntos correspondientes a los que tenia.
                     //pro.setPuntos(pro.getPuntos() + pro.fpuntos());
