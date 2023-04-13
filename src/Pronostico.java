@@ -5,13 +5,16 @@ public class Pronostico{
     private Equipo equipo;
     private ResultadoEnum resultado;
     private int puntos;
+    private String nombre;
 
     public int fpuntos(){
         int r=0;
-        if(equipo!=null){
-            if(resultado.ordinal()==0){r=1;}
-        } else {
-            if(resultado.ordinal()==2){r=1;}
+        if(equipo!=null && resultado!=null) {
+//            Gano el equipo que aposto
+            if (resultado.ordinal() == 0) {r = 1;}
+//            si equipo es null es porque aposto por empate
+        } else if (equipo==null && resultado!=null){
+            if(resultado.ordinal()==2) r=1;
         }
         return r;
     }
@@ -43,14 +46,21 @@ public class Pronostico{
         this.puntos = puntos;
     }
 
-    // No se que otra cosa le falta en el print
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
     public void print(){
         System.out.println(
                 "numP "+
                 this.getNumPartido()+ " "+
-                this.getEquipo()+" "+
-                this.getResultado()+ " "+
-                this.getPuntos()
+//                this.getEquipo()+" "+
+//                this.getResultado()+ " "+
+//                this.getPuntos() + " " +
+                this.getNombre()
         );
     }
 
