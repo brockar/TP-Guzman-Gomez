@@ -37,9 +37,9 @@ public class Archivo {
         }
 
         //para mostrar por pantalla los partidos en aP
-        for (Partido partido : aP) {
-            partido.print();
-        }
+//        for (Partido partido : aP) {
+//            partido.print();
+//        }
 
         // Lectura PRONOSTICOS -------------------
         ArrayList<Pronostico> aPro = new ArrayList<>();
@@ -80,12 +80,16 @@ public class Archivo {
                     //To do: arreglar errores del recuento de puntos.
 
                     //busca el ResultadoEnum del equipo que aposto
+
+
+                    System.out.println(aP.get(pro.getNumPartido()).resultado(pro.getEquipo()));
+                    //pro.setResultado();
                     //pro.setResultado(aP.get(pro.getNumPartido()).resultado(pro.getEquipo()));
 
                     //Agrega los puntos correspondientes a los que tenia.
                     //pro.setPuntos(pro.getPuntos() + pro.fpuntos());
 
-                    aPro.add(pro);
+                    //aPro.add(pro);
                 }
             }
         } catch (Exception error1) {
@@ -93,9 +97,9 @@ public class Archivo {
         }
 
         //para mostrar por pantalla los partidos en aP
-        for (Pronostico pronostico : aPro) {
-            pronostico.print();
-        }
+//        for (Pronostico pronostico : aPro) {
+//            pronostico.print();
+//        }
 
         /*
         Habria que implementar las rondas.

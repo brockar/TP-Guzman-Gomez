@@ -9,25 +9,25 @@ public class Partido {
     public ResultadoEnum resultado(Equipo equipo) {
         ResultadoEnum ret = null;
         //comparar q equipo es primero
-        if (equipo.getNombre().equals(equipo1.getNombre())) {
-            if (golesEquipo1 > golesEquipo2) {
-                ret = ResultadoEnum.GANADOR;
-            } else if (golesEquipo1==(golesEquipo2)) {
-                ret = ResultadoEnum.EMPATE;
-            } else {
-                ret = ResultadoEnum.PERDEDOR;
+        if(equipo!=null) {
+            if (equipo.getNombre().equals(equipo1.getNombre())) {
+                if (golesEquipo1 > golesEquipo2) {
+                    ret = ResultadoEnum.GANADOR;
+                } else if (golesEquipo1 == (golesEquipo2)) {
+                    ret = ResultadoEnum.EMPATE;
+                } else {
+                    ret = ResultadoEnum.PERDEDOR;
+                }
+            } else if (equipo.getNombre().equals(equipo2.getNombre())) {
+                if (golesEquipo1 < golesEquipo2) {
+                    ret = ResultadoEnum.GANADOR;
+                } else if (golesEquipo1 == (golesEquipo2)) {
+                    ret = ResultadoEnum.EMPATE;
+                } else {
+                    ret = ResultadoEnum.PERDEDOR;
+                }
             }
         }
-        else if (equipo.getNombre().equals(equipo2.getNombre())) {
-            if (golesEquipo1 < golesEquipo2) {
-                ret = ResultadoEnum.GANADOR;
-            } else if (golesEquipo1==(golesEquipo2)) {
-                ret = ResultadoEnum.EMPATE;
-            } else {
-                ret = ResultadoEnum.PERDEDOR;
-            }
-        }
-
         return ret;
     }
 
