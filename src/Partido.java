@@ -6,7 +6,7 @@ public class Partido {
     private int golesEquipo1;
     private int golesEquipo2;
 
-    public ResultadoEnum resultado(Equipo equipo) {
+    public ResultadoEnum resultadoPart(Equipo equipo) {
         ResultadoEnum ret = null;
         if(equipo!=null) {
             //comparar q equipo es primero
@@ -76,6 +76,7 @@ public class Partido {
 
     public void print(){
         System.out.println(
+                "numP "+
                 this.getNumPartido()+ " "+
                 equipo1.getNombre()+ " " +
                 this.golesEquipo1 + " " +

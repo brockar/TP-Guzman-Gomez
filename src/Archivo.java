@@ -81,16 +81,14 @@ public class Archivo {
                     //!To do: arreglar errores del recuento de puntos.
 
                     //busca el ResultadoEnum del equipo que aposto
-
-                    //System.out.println(pro.getEquipo().getNombre());
-                    System.out.println(aP.get(pro.getNumPartido()).resultado(pro.getEquipo())+ "\n");
-
-//                    hacer un if para comprobar si tiene o no equipo, si no tiene equipo manda la consulta sin equipo
+                    System.out.println(aP.get(pro.getNumPartido()).resultadoPart(pro.getEquipo())+ "\n");
+                    pro.setResultado(aP.get(pro.getNumPartido()).resultadoPart(pro.getEquipo()));
+//                   hacer un if para comprobar si tiene o no equipo, si no tiene equipo manda la consulta sin equipo
 
                     //Agrega los puntos correspondientes a los que tenia.
-                    //pro.setPuntos(pro.getPuntos() + pro.fpuntos());
+                    pro.setPuntos(pro.getPuntos() + pro.fpuntos());
 
-                    //aPro.add(pro);
+                    aPro.add(pro);
                 }
             }
         } catch (Exception error1) {
@@ -98,15 +96,11 @@ public class Archivo {
         }
 
         //para mostrar por pantalla los partidos en aP
-//        for (Pronostico pronostico : aPro) {
-//            pronostico.print();
-//        }
+        System.out.println("Pornosticos");
+        for (Pronostico pronostico : aPro) {
+            pronostico.print();
+        }
 
-        /*
-        Habria que implementar las rondas.
-        Para eso habia que cambiar el sistema para ingresar a los partidos
-        y todo eso porque meteríamos lo que hicimos dentro de Rondas.
-         */
     }
 }
 

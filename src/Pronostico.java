@@ -8,7 +8,7 @@ public class Pronostico{
 
     public int fpuntos(){
         int r=0;
-        if(!equipo.equals(null)){
+        if(equipo!=null){
             if(resultado.ordinal()==0){r=1;}
         } else {
             if(resultado.ordinal()==2){r=1;}
@@ -46,6 +46,7 @@ public class Pronostico{
     // No se que otra cosa le falta en el print
     public void print(){
         System.out.println(
+                "numP "+
                 this.getNumPartido()+ " "+
                 this.getEquipo()+" "+
                 this.getResultado()+ " "+
