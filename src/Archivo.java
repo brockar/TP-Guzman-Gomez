@@ -36,10 +36,6 @@ public class Archivo {
             System.out.println("e");
         }
 
-        //para mostrar por pantalla los partidos en aP
-//        for (Partido partido : aP) {
-//            partido.print();
-//        }
 
         // Lectura PRONOSTICOS -------------------
         ArrayList<Pronostico> aPro = new ArrayList<>();
@@ -55,14 +51,14 @@ public class Archivo {
 
                 // Mira que partido es y si existe.
                 boolean existe = false;
-                for(Partido pa : aP){
+                for (Partido pa : aP) {
                     if (pa.getNumPartido() == pro.getNumPartido()) {
                         existe = true;
                         break;
                     }
                 }
 
-                if(existe) {
+                if (existe) {
                     Equipo e = new Equipo();
                     e.setNombre(datos0[1]);
                     Equipo e1 = new Equipo();
@@ -93,60 +89,39 @@ public class Archivo {
         } catch (Exception error1) {
             error1.printStackTrace();
         }
-        //para mostrar por pantalla los partidos en aP
-//        System.out.println("Pornosticos");
-//        for (Pronostico pronostico : aPro) {
-//            pronostico.print();
-//        }
 
 //      Recuento de puntos por persona
         //M=2 P=3
-        int puntosPersona=0;
-        String nombrePersona="";
+        int puntosPersona = 0;
+        String nombrePersona = "";
 //     Lo hice con iterador para saber el primero y el ultimo, de al forma for each no tenia manera de comprobar el primero y el ultimo
         //!Se puede sacar la primer iteracion afuera haciendo un aPro.get(0) y empezando el for en 1.
 //        !Tambien se puede sacar el ultimo si se lo busca en aPro.size
-        for (int i=0; i<aPro.size(); i++) {
+        for (int i = 0; i < aPro.size(); i++) {
             Pronostico pronostico = aPro.get(i);
 //            Primer entrada
-            if (i==0) {
-                nombrePersona= pronostico.getNombre();
-                puntosPersona= pronostico.getPuntos();
+            if (i == 0) {
+                nombrePersona = pronostico.getNombre();
+                puntosPersona = pronostico.getPuntos();
             }
 //            resto de entradas excepto la ultima
-            else if (nombrePersona.equals(pronostico.getNombre()) && i!=aPro.size()-1){
-                puntosPersona= puntosPersona + pronostico.getPuntos();
+            else if (nombrePersona.equals(pronostico.getNombre()) && i != aPro.size() - 1) {
+                puntosPersona = puntosPersona + pronostico.getPuntos();
             }
 //            ultima entrada
-            else if (i==aPro.size()-1) {
-                puntosPersona= puntosPersona+pronostico.getPuntos();
-                System.out.println(nombrePersona + ": "+puntosPersona);
-            } else{
-                System.out.println(nombrePersona + ": "+puntosPersona);
-                nombrePersona=pronostico.getNombre();
-                puntosPersona=pronostico.getPuntos();
+            else if (i == aPro.size() - 1) {
+                puntosPersona = puntosPersona + pronostico.getPuntos();
+                System.out.println(nombrePersona + " obtuvo " + puntosPersona + " puntos.");
+            } else {
+                System.out.println(nombrePersona + " obtuvo " + puntosPersona + " puntos.");
+                nombrePersona = pronostico.getNombre();
+                puntosPersona = pronostico.getPuntos();
             }
 
-//            System.out.println("i: "+i+ " NP: "+nombrePersona +" NPronos: "+ pronostico.getNombre());
-//            System.out.println((nombrePersona.equals(pronostico.getNombre())));
 
         }
-        Pronostico pronostico = aPro.get(aPro.size()-1);
-        System.out.println(pronostico.getNombre()+": "+puntosPersona);
-//        for (Pronostico pronostico : aPro){
-////            System.out.println(pronostico.getNombre());
-//
-//            if(nombrePersona.equals(pronostico.getNombre())) {
-//                puntosPersona=puntosPersona+pronostico.getPuntos();
-//
-//            } else{
-//                System.out.println(nombrePersona + ": "+puntosPersona);
-//                nombrePersona=pronostico.getNombre();
-//                puntosPersona=pronostico.getPuntos();
-//            }
-//        }
-
     }
 }
+
 
 
