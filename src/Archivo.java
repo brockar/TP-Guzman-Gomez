@@ -14,23 +14,39 @@ public class Archivo {
             while (scFile.hasNextLine()) {
                 //Separa los datos por ;
                 datos = scFile.nextLine().split(";");
-                p = new Partido();
+                boolean correcta=false;
 
-                Equipo e = new Equipo();
-                e.setNombre(datos[1]);
-                p.setEquipo1(e);
+                if(datos.length==6){
+//                    \\d+ son los enteros en regex
+                    if( datos[0].matches("\\d+") && datos[2].matches("\\d+") && datos[3].matches("\\d+") && datos[5].matches("\\d+")  ){
+                        if(datos[1]!=null && datos[4]!=null){
+                            correcta=true;
+                        }
+                    }
+                }
 
-                p.setGolesEquipo1(Integer.parseInt(datos[2]));
-                p.setGolesEquipo2(Integer.parseInt(datos[3]));
 
-                e = new Equipo();
-                e.setNombre(datos[4]);
-                p.setEquipo2(e);
+                if(correcta){
+                    p = new Partido();
 
-//                System.out.println("APe= " + e);
+                    Equipo e = new Equipo();
+                    e.setNombre(datos[1]);
+                    p.setEquipo1(e);
 
-                aP.add(p);
-                p.setNumPartido(Integer.parseInt(datos[0]));
+                    p.setGolesEquipo1(Integer.parseInt(datos[2]));
+                    p.setGolesEquipo2(Integer.parseInt(datos[3]));
+
+                    e = new Equipo();
+                    e.setNombre(datos[4]);
+                    p.setEquipo2(e);
+                    p.setNumPartido(Integer.parseInt(datos[0]));
+
+                    aP.add(Integer.parseInt(datos[0]),p);
+
+                }
+                else{
+                    System.out.println("Algun dato esta mal.");
+                }
             }
         } catch (Exception e) {
             System.out.println("e");
@@ -78,6 +94,7 @@ public class Archivo {
                     //!To do: arreglar errores del recuento de puntos.
                     //!Probar bien los puntos, con todas las convinaciones posibles.
                     //busca el ResultadoEnum del equipo que aposto y lo agrega
+
                     pro.setResultado(aP.get(pro.getNumPartido()).resultadoPart(pro.getEquipo()));
 
                     //Agrega los puntos correspondientes a los que tenia.
@@ -96,7 +113,7 @@ public class Archivo {
         String nombrePersona = "";
 //     Lo hice con iterador para saber el primero y el ultimo, de al forma for each no tenia manera de comprobar el primero y el ultimo
         //!Se puede sacar la primer iteracion afuera haciendo un aPro.get(0) y empezando el for en 1.
-//        !Tambien se puede sacar el ultimo si se lo busca en aPro.size
+        //!Tambien se puede sacar el ultimo si se lo busca en aPro.size
         for (int i = 0; i < aPro.size(); i++) {
             Pronostico pronostico = aPro.get(i);
 //            Primer entrada
