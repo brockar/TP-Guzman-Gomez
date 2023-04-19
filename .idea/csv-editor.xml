@@ -10,14 +10,7 @@
             </Attribute>
           </value>
         </entry>
-        <entry key="\src\pronostico.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value=";" />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="\src\resultados.csv">
+        <entry key="\src\main\java\resultados.csv">
           <value>
             <Attribute>
               <option name="separator" value=";" />

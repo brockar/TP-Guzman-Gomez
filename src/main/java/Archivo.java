@@ -10,7 +10,7 @@ public class Archivo {
         ArrayList<Partido> aP = new ArrayList<>();
         Partido p;
         String[] datos;
-        try (Scanner scFile = new Scanner(new File("src/resultados.csv"))) {
+        try (Scanner scFile = new Scanner(new File("src/main/java/resultados.csv"))) {
             while (scFile.hasNextLine()) {
                 //Separa los datos por ;
                 datos = scFile.nextLine().split(";");
@@ -58,7 +58,7 @@ public class Archivo {
         Pronostico pro;
         String[] datos0;
 
-        try (Scanner scFile = new Scanner(new File("src/pronostico.csv"))) {
+        try (Scanner scFile = new Scanner(new File("src/main/java/pronostico.csv"))) {
             while (scFile.hasNextLine()) {
                 datos0 = scFile.nextLine().split(";");
                 pro = new Pronostico();
