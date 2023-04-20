@@ -1,11 +1,45 @@
 //package tp;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.*;
 import java.time.Year;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
+
+
 public class Archivo {
     public static void main(String[] args) {
+        //Lectura de configuracion
+
+        HashMap<String, String> configuracion = new HashMap<String, String>();
+        try {
+            // Abre el archivo de configuración
+            BufferedReader conf = new BufferedReader(new FileReader("src/main/java/config.txt"));
+            String linea;
+            // Lee cada línea del archivo
+            while ((linea = conf.readLine()) != null) {
+                // Separa la línea en dos partes usando el carácter =
+                String[] partes = linea.split("=");
+                // Añade la clave y el valor al HashMap
+                configuracion.put(partes[0], partes[1]);
+            }
+
+            // Cierra el archivo
+            conf.close();
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
+
+        // Imprime los datos de configuración
+//        for (String clave : configuracion.keySet()) {
+//            System.out.println(clave + " = " + configuracion.get(clave));
+//        }
+//            !Hay que cambiar la asignacion  de puntos por los  puntos que se leen aca
+//        !Tambien hay que leer los datos de aca para entrar en la db
+
 
         // Lectura PARTIDOS ----------------
         // Explicacion
@@ -94,12 +128,8 @@ public class Archivo {
 
                     pro.setNombre(datos0[6]);
 
-                    //!To do: arreglar errores del recuento de puntos.
-                    //!Probar bien los puntos, con todas las convinaciones posibles.
                     //busca el ResultadoEnum del equipo que aposto y lo agrega
-
                     pro.setResultado(aP.get(pro.getNumPartido()).resultadoPart(pro.getEquipo()));
-
                     //Agrega los puntos correspondientes a los que tenia.
                     pro.setPuntos(pro.fpuntos());
 
@@ -153,27 +183,25 @@ public class Archivo {
 
             }
 
-<<<<<<< HEAD
-=======
             //! Intentar tomar los datos de la config
             ///C:\xampp\phpMyAdmin\config.inc.php hay que cambéar la contraseña
+            String USERDB=configuracion.get("USERDB");
+            String PASSDB=configuracion.get("PASSDB");
+            String URLDB=configuracion.get("URLDB");
             try{
                 Class.forName("com.mysql.cj.jdbc.Driver");
-                Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/tpdatos","root","root");
+//                Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/tpdatos","root","root");
+                Connection con=DriverManager.getConnection("jdbc:mysql://"+URLDB,USERDB,PASSDB);
                 Statement stmt=con.createStatement();
 //                USO DE LA DB
                 con.close();
             }catch (Exception e){
                 e.printStackTrace();
             }
->>>>>>> 418ed552bd1a2ef5cda051127b126a1d47bc60b6
 
         }
     }
 }
-
-
-
 /*
 Entrega 3
         En esta entrega se deben poder leer los pronósticos desde una base de datos MySQL. Por
@@ -190,4 +218,12 @@ Entrega 3
         ● Estar actualizado en el repositorio de Git.
         ● Recibir como argumento un archivo con los resultados y otro con configuración, por
         ejemplo: conexión a la DB, puntaje por partido ganado, puntos extra, etc.
+
+        Si, vas a tener que modificar los archivos para validar ese comportamiento, igual que cuando lo tuvieron que hacer por las excepciones
+        Una fase es un conjunto de rondas, no importa cuántas, la idea es que el sistema soporte que haya fases y que las mismas estén compuestas por rondas, idealmente re recomiendo que pruebes con 2 porque sino pierde un poco el sentido.
+        Respecto del archivo de configuración lo que queremos es que utilizan una mecánica que se usa mucho en software que consiste en establecer configuraciones por medio de un archivo para darle versatilidad al programa que están construyendo.
+        Con que agreguen la base configuración de la base y los puntos.
+
+        En general los archivos de configuración se arman con un par clave valor, por ejemplo:
+        Puntos_Extra_Ronda=2
 */
