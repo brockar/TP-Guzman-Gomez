@@ -149,9 +149,6 @@ public class Archivo {
                 e.printStackTrace();
             }
 
-
-
-
         }
     }
 }
