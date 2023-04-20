@@ -131,16 +131,34 @@ public class Archivo {
 //            ultima entrada
             else if (i == aPro.size() - 1) {
                 puntosPersona = puntosPersona + pronostico.getPuntos();
-                System.out.println(nombrePersona + " obtuvo " + puntosPersona + " puntos.");
-            } else {
-                System.out.println(nombrePersona + " obtuvo " + puntosPersona + " puntos.");
+                if (puntosPersona == 4){
+                    int puntosextra=1;
+                    puntosPersona=puntosextra+puntosPersona;
+                    System.out.println(nombrePersona + " obtuvo " + puntosPersona + " puntos.");
+                }
+                else {System.out.println(nombrePersona + " obtuvo " + puntosPersona + " puntos.");
+                }
+            }
+            else  {
+                if (puntosPersona == 4){
+                    int puntosextra=1;
+                    puntosPersona=puntosextra+puntosPersona;
+                    System.out.println(nombrePersona + " obtuvo " + puntosPersona + " puntos.");
+                }
+                else
+                    System.out.println(nombrePersona + " obtuvo " + puntosPersona + " puntos.");
                 nombrePersona = pronostico.getNombre();
                 puntosPersona = pronostico.getPuntos();
+
+
             }
 
+<<<<<<< HEAD
+=======
             //! Intentar tomar los datos de la config
+            ///C:\xampp\phpMyAdmin\config.inc.php hay que cambéar la contraseña
             try{
-                Class.forName("com.mysql.jdbc.Driver");
+                Class.forName("com.mysql.cj.jdbc.Driver");
                 Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/tpdatos","root","root");
                 Statement stmt=con.createStatement();
 //                USO DE LA DB
@@ -148,6 +166,7 @@ public class Archivo {
             }catch (Exception e){
                 e.printStackTrace();
             }
+>>>>>>> 418ed552bd1a2ef5cda051127b126a1d47bc60b6
 
         }
     }
@@ -155,4 +174,20 @@ public class Archivo {
 
 
 
-
+/*
+Entrega 3
+        En esta entrega se deben poder leer los pronósticos desde una base de datos MySQL. Por
+        otro lado, debe poder ser configurable la cantidad de puntos que se otorgan cuando se acierta
+        un resultado (ganar, perder, empatar).
+        Finalmente, se agregan 2(dos) reglas para la asignación de puntajes de los participantes:
+        ● Se suman puntos extra cuando se aciertan todos los resultados de una ronda.
+        ● Se suman puntos extra cuando se aciertan todos los resultados de una fase
+        (nuevamente, hace falta modificar los archivos para agregar este dato) sobre un
+        equipo. Se debe considerar que una fase es un conjunto de rondas.
+        Se recomienda analizar qué estrategia se puede aplicar para incluir otras nuevas reglas con el
+        menor impacto posible, de forma simple.
+        En esta entrega, el programa debe:
+        ● Estar actualizado en el repositorio de Git.
+        ● Recibir como argumento un archivo con los resultados y otro con configuración, por
+        ejemplo: conexión a la DB, puntaje por partido ganado, puntos extra, etc.
+*/
