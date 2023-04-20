@@ -139,8 +139,9 @@ public class Archivo {
             }
 
             //! Intentar tomar los datos de la config
+            ///C:\xampp\phpMyAdmin\config.inc.php hay que cambéar la contraseña
             try{
-                Class.forName("com.mysql.jdbc.Driver");
+                Class.forName("com.mysql.cj.jdbc.Driver");
                 Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/tpdatos","root","root");
                 Statement stmt=con.createStatement();
 //                USO DE LA DB
