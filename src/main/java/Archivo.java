@@ -1,9 +1,12 @@
 //package tp;
 import java.io.File;
+import java.sql.*;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.Scanner;
 public class Archivo {
     public static void main(String[] args) {
+
         // Lectura PARTIDOS ----------------
         // Explicacion
         // https://www.youtube.com/watch?v=WhpP6HWVOb8
@@ -135,10 +138,24 @@ public class Archivo {
                 puntosPersona = pronostico.getPuntos();
             }
 
+            //! Intentar tomar los datos de la config
+            try{
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/tpdatos","root","root");
+                Statement stmt=con.createStatement();
+//                USO DE LA DB
+                con.close();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+
+
 
         }
     }
 }
+
 
 
 
