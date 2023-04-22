@@ -50,15 +50,14 @@ public class Archivo {
                 datos = scFile.nextLine().split(";");
                 boolean correcta=false;
 
-                if(datos.length==6){
+                if(datos.length==7){
 //                    \\d+ son los enteros en regex
-                    if( datos[0].matches("\\d+") && datos[2].matches("\\d+") && datos[3].matches("\\d+") && datos[5].matches("\\d+")  ){
+                    if( datos[0].matches("\\d+") && datos[2].matches("\\d+") && datos[3].matches("\\d+") && datos[5].matches("\\d+") && datos[6].matches("\\d+") ){
                         if(datos[1]!=null && datos[4]!=null){
                             correcta=true;
                         }
                     }
                 }
-
 
                 if(correcta){
                     p = new Partido();
@@ -153,6 +152,8 @@ public class Archivo {
         int iter=0;
         int multip = Integer.parseInt(configuracion.get("PuntosPart"));
 
+        HashMap<String, int[]> rondasg = new HashMap<String, int[]>();
+
         //#Tendria que guardarlos en un arraylist con todos los partidos que acertaron y ver si son de la misma ronda y fase para darle bien los puntos extras
         //ya que las fases pueden ser de dos rondas no contiguas
 
@@ -176,15 +177,16 @@ public class Archivo {
                 partxronda[iter]++;
                 if(partxronda[iter]==(puntosPersona/multip)){
                     puntosPersona= puntosPersona + Integer.parseInt(configuracion.get("PuntosRonda"));
+                    System.out.println(nombrePersona);
                 }
 
                 System.out.println(nombrePersona + " obtuvo " + puntosPersona + " puntos.");
                 }
             else {
                 partxronda[iter]++;
-
                 if(partxronda[iter]==(puntosPersona/multip)){
                     puntosPersona= puntosPersona + Integer.parseInt(configuracion.get("PuntosRonda"));
+                    System.out.println("entra1");
                 }
 
                 System.out.println(nombrePersona + " obtuvo " + puntosPersona + " puntos.");
@@ -193,19 +195,6 @@ public class Archivo {
                 puntosPersona= pronostico.getPuntos() * multip;
             }
 
-            /* Nico
-            else  {
-                if (puntosPersona == 4){
-                    int puntosextra=1;
-                    puntosPersona=puntosextra+puntosPersona;
-                    System.out.println(nombrePersona + " obtuvo " + puntosPersona + " puntos.");
-                }
-                else
-                    System.out.println(nombrePersona + " obtuvo " + puntosPersona + " puntos.");
-                nombrePersona = pronostico.getNombre();
-                puntosPersona = pronostico.getPuntos();
-            }
-             */
         }
 
         ///C:\xampp\phpMyAdmin\config.inc.php hay que cambiar la contraseña
