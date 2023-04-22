@@ -37,9 +37,6 @@ public class Archivo {
 //        for (String clave : configuracion.keySet()) {
 //            System.out.println(clave + " = " + configuracion.get(clave));
 //        }
-//            !Hay que cambiar la asignacion  de puntos por los  puntos que se leen aca
-//        !Tambien hay que leer los datos de aca para entrar en la db
-
 
         // Lectura PARTIDOS ----------------
         // Explicacion
@@ -77,6 +74,7 @@ public class Archivo {
                     e.setNombre(datos[4]);
                     p.setEquipo2(e);
                     p.setNumPartido(Integer.parseInt(datos[0]));
+                    p.setRonda(Integer.parseInt(datos[5]));
 
                     aP.add(Integer.parseInt(datos[0]),p);
 
@@ -127,12 +125,13 @@ public class Archivo {
                     }
 
                     pro.setNombre(datos0[6]);
+                    pro.setRonda(Integer.parseInt(datos0[7]));
+                    pro.setFase(Integer.parseInt(datos0[8]));
 
                     //busca el ResultadoEnum del equipo que aposto y lo agrega
                     pro.setResultado(aP.get(pro.getNumPartido()).resultadoPart(pro.getEquipo()));
                     //Agrega los puntos correspondientes a los que tenia.
                     pro.setPuntos(pro.fpuntos());
-
                     aPro.add(pro);
                 }
             }
@@ -140,35 +139,61 @@ public class Archivo {
             error1.printStackTrace();
         }
 
-//      Recuento de puntos por persona
+
+//      Recuento PUNTOS  --------------------------------------------
         //M=2 P=3
         int puntosPersona = 0;
         String nombrePersona = "";
-//     Lo hice con iterador para saber el primero y el ultimo, de al forma for each no tenia manera de comprobar el primero y el ultimo
+//      Lo hice con iterador para saber el primero y el ultimo, de al forma for each no tenia manera de comprobar el primero y el ultimo
         //!Se puede sacar la primer iteracion afuera haciendo un aPro.get(0) y empezando el for en 1.
         //!Tambien se puede sacar el ultimo si se lo busca en aPro.size
+
+        //Puntos por partido
+        int[] partxronda = new int[10];
+        int iter=0;
+        int multip = Integer.parseInt(configuracion.get("PuntosPart"));
+
+        //#Tendria que guardarlos en un arraylist con todos los partidos que acertaron y ver si son de la misma ronda y fase para darle bien los puntos extras
+        //ya que las fases pueden ser de dos rondas no contiguas
+
         for (int i = 0; i < aPro.size(); i++) {
             Pronostico pronostico = aPro.get(i);
 //            Primer entrada
             if (i == 0) {
                 nombrePersona = pronostico.getNombre();
-                puntosPersona = pronostico.getPuntos();
+                puntosPersona = pronostico.getPuntos() * multip ;
+                partxronda[iter]=1;
             }
 //            resto de entradas excepto la ultima
             else if (nombrePersona.equals(pronostico.getNombre()) && i != aPro.size() - 1) {
-                puntosPersona = puntosPersona + pronostico.getPuntos();
+                puntosPersona = puntosPersona + (pronostico.getPuntos() * multip );
+                partxronda[iter]++;
             }
 //            ultima entrada
             else if (i == aPro.size() - 1) {
-                puntosPersona = puntosPersona + pronostico.getPuntos();
-                if (puntosPersona == 4){
-                    int puntosextra=1;
-                    puntosPersona=puntosextra+puntosPersona;
-                    System.out.println(nombrePersona + " obtuvo " + puntosPersona + " puntos.");
+                puntosPersona = puntosPersona + (pronostico.getPuntos() * multip);
+
+                partxronda[iter]++;
+                if(partxronda[iter]==(puntosPersona/multip)){
+                    puntosPersona= puntosPersona + Integer.parseInt(configuracion.get("PuntosRonda"));
                 }
-                else {System.out.println(nombrePersona + " obtuvo " + puntosPersona + " puntos.");
+
+                System.out.println(nombrePersona + " obtuvo " + puntosPersona + " puntos.");
                 }
+            else {
+                partxronda[iter]++;
+
+                if(partxronda[iter]==(puntosPersona/multip)){
+                    puntosPersona= puntosPersona + Integer.parseInt(configuracion.get("PuntosRonda"));
+                }
+
+                System.out.println(nombrePersona + " obtuvo " + puntosPersona + " puntos.");
+                iter++;
+                nombrePersona= pronostico.getNombre();
+                puntosPersona= pronostico.getPuntos() * multip;
             }
+
+            /* Nico
             else  {
                 if (puntosPersona == 4){
                     int puntosextra=1;
@@ -179,51 +204,48 @@ public class Archivo {
                     System.out.println(nombrePersona + " obtuvo " + puntosPersona + " puntos.");
                 nombrePersona = pronostico.getNombre();
                 puntosPersona = pronostico.getPuntos();
-
-
             }
+             */
+        }
 
-            //! Intentar tomar los datos de la config
-            ///C:\xampp\phpMyAdmin\config.inc.php hay que cambéar la contraseña
-            String USERDB=configuracion.get("USERDB");
-            String PASSDB=configuracion.get("PASSDB");
-            String URLDB=configuracion.get("URLDB");
-            try{
-                Class.forName("com.mysql.cj.jdbc.Driver");
+        ///C:\xampp\phpMyAdmin\config.inc.php hay que cambiar la contraseña
+        String USERDB=configuracion.get("USERDB");
+        String PASSDB=configuracion.get("PASSDB");
+        String URLDB=configuracion.get("URLDB");
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
 //                Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/tpdatos","root","root");
-                Connection con=DriverManager.getConnection("jdbc:mysql://"+URLDB,USERDB,PASSDB);
-                Statement stmt=con.createStatement();
-//                USO DE LA DB
-                con.close();
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-
+            Connection con=DriverManager.getConnection("jdbc:mysql://"+URLDB,USERDB,PASSDB);
+            Statement stmt=con.createStatement();
+//                USO DE LA DBl
+            con.close();
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 }
 /*
 Entrega 3
-        En esta entrega se deben poder leer los pronósticos desde una base de datos MySQL. Por
-        otro lado, debe poder ser configurable la cantidad de puntos que se otorgan cuando se acierta
-        un resultado (ganar, perder, empatar).
-        Finalmente, se agregan 2(dos) reglas para la asignación de puntajes de los participantes:
-        ● Se suman puntos extra cuando se aciertan todos los resultados de una ronda.
-        ● Se suman puntos extra cuando se aciertan todos los resultados de una fase
-        (nuevamente, hace falta modificar los archivos para agregar este dato) sobre un
-        equipo. Se debe considerar que una fase es un conjunto de rondas.
-        Se recomienda analizar qué estrategia se puede aplicar para incluir otras nuevas reglas con el
-        menor impacto posible, de forma simple.
-        En esta entrega, el programa debe:
-        ● Estar actualizado en el repositorio de Git.
-        ● Recibir como argumento un archivo con los resultados y otro con configuración, por
-        ejemplo: conexión a la DB, puntaje por partido ganado, puntos extra, etc.
+En esta entrega se deben poder leer los pronósticos desde una base de datos MySQL.
+Por otro lado, debe poder ser configurable la cantidad de puntos que se otorgan cuando se acierta
+un resultado (ganar, perder, empatar). !!LISTO
+Finalmente, se agregan 2(dos) reglas para la asignación de puntajes de los participantes:
+● Se suman puntos extra cuando se aciertan todos los resultados de una ronda. !!LISTO
+● Se suman puntos extra cuando se aciertan todos los resultados de una fase !!Falta
+(nuevamente, hace falta modificar los archivos para agregar este dato) sobre un
+equipo. Se debe considerar que una fase es un conjunto de rondas.
+Se recomienda analizar qué estrategia se puede aplicar para incluir otras nuevas reglas con el
+menor impacto posible, de forma simple.
+En esta entrega, el programa debe:
+● Estar actualizado en el repositorio de Git.
+● Recibir como argumento un archivo con los resultados y otro con configuración, por
+ejemplo: conexión a la DB, puntaje por partido ganado, puntos extra, etc.
 
-        Si, vas a tener que modificar los archivos para validar ese comportamiento, igual que cuando lo tuvieron que hacer por las excepciones
-        Una fase es un conjunto de rondas, no importa cuántas, la idea es que el sistema soporte que haya fases y que las mismas estén compuestas por rondas, idealmente re recomiendo que pruebes con 2 porque sino pierde un poco el sentido.
-        Respecto del archivo de configuración lo que queremos es que utilizan una mecánica que se usa mucho en software que consiste en establecer configuraciones por medio de un archivo para darle versatilidad al programa que están construyendo.
-        Con que agreguen la base configuración de la base y los puntos.
+Si, vas a tener que modificar los archivos para validar ese comportamiento, igual que cuando lo tuvieron que hacer por las excepciones
+Una fase es un conjunto de rondas, no importa cuántas, la idea es que el sistema soporte que haya fases y que las mismas estén compuestas por rondas, idealmente re recomiendo que pruebes con 2 porque sino pierde un poco el sentido.
+Respecto del archivo de configuración lo que queremos es que utilizan una mecánica que se usa mucho en software que consiste en establecer configuraciones por medio de un archivo para darle versatilidad al programa que están construyendo.
+Con que agreguen la base configuración de la base y los puntos.
 
-        En general los archivos de configuración se arman con un par clave valor, por ejemplo:
-        Puntos_Extra_Ronda=2
+En general los archivos de configuración se arman con un par clave valor, por ejemplo:
+Puntos_Extra_Ronda=2
 */

@@ -5,6 +5,7 @@ public class Partido {
     private Equipo equipo2;
     private int golesEquipo1;
     private int golesEquipo2;
+    private int ronda;
 
     public ResultadoEnum resultadoPart(Equipo equipo) {
         ResultadoEnum ret = null;
@@ -86,6 +87,14 @@ public class Partido {
 
                 this.golesEquipo2
         );
+    }
+
+    public int getRonda() {
+        return ronda;
+    }
+
+    public void setRonda(int ronda) {
+        this.ronda = ronda;
     }
 
 }
