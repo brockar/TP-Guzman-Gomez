@@ -7,7 +7,9 @@ import java.sql.*;
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 
 public class Archivo {
@@ -140,77 +142,177 @@ public class Archivo {
 
 
 //      Recuento PUNTOS  --------------------------------------------
-        //M=2 P=3
-        int puntosPersona = 0;
-        String nombrePersona = "";
 //      Lo hice con iterador para saber el primero y el ultimo, de al forma for each no tenia manera de comprobar el primero y el ultimo
         //!Se puede sacar la primer iteracion afuera haciendo un aPro.get(0) y empezando el for en 1.
         //!Tambien se puede sacar el ultimo si se lo busca en aPro.size
 
-        //Puntos por partido
-        int[] partxronda = new int[10];
-        int iter=0;
-        int multip = Integer.parseInt(configuracion.get("PuntosPart"));
+        ArrayList<puntosPersona> $ArrayListDePersonas = new ArrayList<>();
+        ArrayList<String> nombres= new ArrayList<String>();
 
-        HashMap<String, int[]> rondasg = new HashMap<String, int[]>();
+        ArrayList<Integer> rondaxfase = new ArrayList<Integer>();
 
-        //#Tendria que guardarlos en un arraylist con todos los partidos que acertaron y ver si son de la misma ronda y fase para darle bien los puntos extras
-        //ya que las fases pueden ser de dos rondas no contiguas
+        int max=0;
+        for (int i = 0; i < aPro.size(); i++) {
+            if (i == 0) {
+                max = aPro.get(i).getFase();
+            } else {
+                if (max < aPro.get(i).getFase()) {
+                    max = aPro.get(i).getFase();
+                }
+            }
+        }
+
+        for (int i = 0; i < max; i++) {
+            rondaxfase.add(0);
+        }
 
         for (int i = 0; i < aPro.size(); i++) {
-            Pronostico pronostico = aPro.get(i);
-//            Primer entrada
-            if (i == 0) {
-                nombrePersona = pronostico.getNombre();
-                puntosPersona = pronostico.getPuntos() * multip ;
-                partxronda[iter]=1;
-            }
-//            resto de entradas excepto la ultima
-            else if (nombrePersona.equals(pronostico.getNombre()) && i != aPro.size() - 1) {
-                puntosPersona = puntosPersona + (pronostico.getPuntos() * multip );
-                partxronda[iter]++;
-            }
-//            ultima entrada
-            else if (i == aPro.size() - 1) {
-                puntosPersona = puntosPersona + (pronostico.getPuntos() * multip);
-
-                partxronda[iter]++;
-                if(partxronda[iter]==(puntosPersona/multip)){
-                    puntosPersona= puntosPersona + Integer.parseInt(configuracion.get("PuntosRonda"));
-                    System.out.println(nombrePersona);
+            if (false && rondaxfase.size() < aPro.get(i).getFase()) {
+                rondaxfase.add(1);
+            } else {
+                if (aPro.get(i).getRonda() > rondaxfase.get(aPro.get(i).getFase()-1)) {
+                    //rondaxfase.get();
+                    rondaxfase.set(aPro.get(i).getFase()-1, aPro.get(i).getRonda());
                 }
-
-                System.out.println(nombrePersona + " obtuvo " + puntosPersona + " puntos.");
-                }
-            else {
-                partxronda[iter]++;
-                if(partxronda[iter]==(puntosPersona/multip)){
-                    puntosPersona= puntosPersona + Integer.parseInt(configuracion.get("PuntosRonda"));
-                    System.out.println("entra1");
-                }
-
-                System.out.println(nombrePersona + " obtuvo " + puntosPersona + " puntos.");
-                iter++;
-                nombrePersona= pronostico.getNombre();
-                puntosPersona= pronostico.getPuntos() * multip;
             }
-
         }
+
+        List<String> personas= nombres.stream().distinct().collect(Collectors.toList());
+
+        for(String persona:personas){
+            System.out.println(persona);
+        }
+
+        for(int i = 0; i < rondaxfase.size(); i++){
+            System.out.println("Fase: " + (i+1) + " Rondas: " + rondaxfase.get(i));
+        }
+
+        int[] puntosxpersona=new int[personas.size()];
+
+//        for (int i = 0; i < aPro.size(); i++) {
+//            for (int j = 0; j < $ArrayListDePersonas.size(); j++) {
+//                int SumaDePuntosTemporal = 0;
+//                if ((aPro.get(i)).getPuntos() == $ArrayListDePersonas.get(j).getPuntos()) {
+//                    //sumar puntos
+//                    SumaDePuntosTemporal += 0;
+//                }
+//                if (aPro.get(i).getRonda() == $ArrayListDePersonas.get(j).getRondas()) {
+//                    //sumar puntos extra
+//                    SumaDePuntosTemporal += 0;
+//                }
+//                if (aPro.get(i).getFase() == $ArrayListDePersonas.get(j).getFase()) {
+//                    //sumar puntos extra
+//                    SumaDePuntosTemporal += 0;
+//                }
+//                $ArrayListDePersonas.get(j).setPuntos($ArrayListDePersonas.get(j).getPuntos() + SumaDePuntosTemporal);
+//            }
+//        }
+
+        //Puntos por partido viejo
+//        //M=2 P=3
+//        int puntosPersona = 0;
+//        String nombrePersona = "";
+//
+//        int[] partxronda = new int[10];
+//        int iter=0;
+//        int multip = Integer.parseInt(configuracion.get("PuntosPart"));
+//
+//        HashMap<String, int[]> rondasg = new HashMap<String, int[]>();
+//        int[] a = new int [10];
+//
+//        //#Tendria que guardarlos en un arraylist con todos los partidos que acertaron y ver si son de la misma ronda y fase para darle bien los puntos extras
+//        //ya que las fases pueden ser de dos rondas no contiguas
+//        for (int i = 0; i < aPro.size(); i++) {
+//            Pronostico pronostico = aPro.get(i);
+////            Primer entrada
+//            if (i == 0) {
+//                nombrePersona = pronostico.getNombre();
+//                puntosPersona = pronostico.getPuntos() * multip ;
+//                partxronda[iter]=1;
+//            }
+////            resto de entradas excepto la ultima
+//            else if (nombrePersona.equals(pronostico.getNombre()) && i != aPro.size() - 1) {
+//                puntosPersona = puntosPersona + (pronostico.getPuntos() * multip );
+//                partxronda[iter]++;
+//            }
+////            ultima entrada
+//            else if (i == aPro.size() - 1) {
+//                puntosPersona = puntosPersona + (pronostico.getPuntos() * multip);
+//
+//                partxronda[iter]++;
+//
+//                if(partxronda[iter]==(puntosPersona/multip)){
+//                    puntosPersona= puntosPersona + Integer.parseInt(configuracion.get("PuntosRonda"));
+////                  para saber las rondas que tienen ganadas
+//                    if(rondasg.get(nombrePersona)!=null) {
+//                        a = rondasg.get(nombrePersona);
+//                    }
+//                    a[pronostico.getRonda()-1]++;
+//                    rondasg.put(nombrePersona,a);
+//                }
+//
+//                System.out.println(nombrePersona + " obtuvo " + puntosPersona + " puntos.");
+//                }
+//            else {
+//                if(partxronda[iter]==(puntosPersona/multip)){
+//                    puntosPersona= puntosPersona + Integer.parseInt(configuracion.get("PuntosRonda"));
+////                  para saber las rondas que tienen ganadas
+//                    if(rondasg.get(nombrePersona)!=null) {
+//                        a = rondasg.get(nombrePersona);
+//                    }
+//                    a[pronostico.getRonda()-1]++;
+//                    rondasg.put(nombrePersona,a);
+//                }
+//                System.out.println(nombrePersona + " obtuvo " + puntosPersona + " puntos.");
+//                iter++;
+//                partxronda[iter]++;
+//                nombrePersona= pronostico.getNombre();
+//                puntosPersona= pronostico.getPuntos() * multip;
+//            }
+//
+//
+//            int[] fases = new int[3];
+//            fases[0]=1;
+////
+//            for (String clave : rondasg.keySet()) {
+//                boolean fase = true;
+//                int[] valores = rondasg.get(clave);
+//                for(int f: fases){
+//                    for(int z=0; z<f;z++){
+//                        if(valores[z]==1)fase=true;
+//                        else fase=false;
+//                    }
+//                    if(fase) puntosPersona=puntosPersona+Integer.parseInt(configuracion.get("PuntosFase"));
+//                }
+//            }
+//        }
+
+//        for (String clave : rondasg.keySet()) {
+//            int[] valores = rondasg.get(clave);
+//            System.out.print("Clave: " + clave + ", Valores: ");
+//            for (int valor : valores) {
+//                System.out.print(valor + " ");
+//            }
+//            System.out.println();
+//        }
+
 
         ///C:\xampp\phpMyAdmin\config.inc.php hay que cambiar la contraseña
-        String USERDB=configuracion.get("USERDB");
-        String PASSDB=configuracion.get("PASSDB");
-        String URLDB=configuracion.get("URLDB");
-        try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
-//                Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/tpdatos","root","root");
-            Connection con=DriverManager.getConnection("jdbc:mysql://"+URLDB,USERDB,PASSDB);
-            Statement stmt=con.createStatement();
-//                USO DE LA DBl
-            con.close();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+//        String USERDB=configuracion.get("USERDB");
+//        String PASSDB=configuracion.get("PASSDB");
+//        String URLDB=configuracion.get("URLDB");
+//        try{
+//            Class.forName("com.mysql.cj.jdbc.Driver");
+////                Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/tpdatos","root","root");
+//            Connection con=DriverManager.getConnection("jdbc:mysql://"+URLDB,USERDB,PASSDB);
+//            Statement stmt=con.createStatement();
+////                USO DE LA DBl
+//            con.close();
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+
+
     }
 }
 /*

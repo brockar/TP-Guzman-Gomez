@@ -1,6 +1,5 @@
 //package tp;
 public class Pronostico {
-    //Esto podria estar de mas ya que el mismo arraylist te pone un indice
     private int numPartido;
     private Equipo equipo;
     private ResultadoEnum resultado;

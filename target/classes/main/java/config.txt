@@ -1,6 +1,6 @@
 PuntosPart=1
 PuntosRonda=1
-PuntosFase=2
+PuntosFase=0
 URLDB=localhost:3306/tpdatos
 USERDB=root
 PASSDB=root
