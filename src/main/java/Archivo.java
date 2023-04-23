@@ -16,7 +16,7 @@ public class Archivo {
     public static void main(String[] args) {
         //Lectura de configuracion
 
-        HashMap<String, String> configuracion = new HashMap<>();
+        HashMap<String, String> configuracion = new HashMap<String, String>();
         try {
             // Abre el archivo de configuración
             BufferedReader conf = new BufferedReader(new FileReader("src/main/java/config.txt"));
@@ -216,23 +216,21 @@ public class Archivo {
 //        }
 
         //Puntos por partido viejo
-//      M=4
-//      P=8 2 fase, 3 ronda
+//        //M=2 P=3
         int puntosPersona = 0;
         String nombrePersona = "";
 
+        int[] partxronda = new int[10];
+        int iter=0;
         int multip = Integer.parseInt(configuracion.get("PuntosPart"));
-        int ronda=0;
-        int fase=0;
-        int cuentarondas=0;
-        int rondasbien=0;
-        int puntosar=0;
-        int cuentafase=0;
-        int puntosafase=0;
-        int fasesbien=0;
 
+<<<<<<< HEAD
         int masRonda=Integer.parseInt(configuracion.get("PuntosRonda"));
         int masFase=Integer.parseInt(configuracion.get("PuntosFase"));
+=======
+//        HashMap<String, int[]> rondasg = new HashMap<String, int[]>();
+//        int[] a = new int [10];
+>>>>>>> parent of 5e902c5 (cuento rondas y falta fases)
 
         //#Tendria que guardarlos en un arraylist con todos los partidos que acertaron y ver si son de la misma ronda y fase para darle bien los puntos extras
         //ya que las fases pueden ser de dos rondas no contiguas
@@ -242,88 +240,52 @@ public class Archivo {
             if (i == 0) {
                 nombrePersona = pronostico.getNombre();
                 puntosPersona = pronostico.getPuntos() * multip ;
-
-                ronda=pronostico.getRonda();
-                fase=pronostico.getFase();
-                cuentarondas++;
-                cuentafase++;
+                partxronda[iter]=1;
             }
 //            resto de entradas excepto la ultima
-            else if (nombrePersona.equals(pronostico.getNombre()) && i!=aPro.size()-1) {
-
-                if(ronda!=pronostico.getRonda()){
-                    if(cuentarondas==(puntosPersona/multip)-puntosar) {
-                        puntosPersona=puntosPersona + masRonda;
-                        rondasbien++;
-                    }
-                    ronda=pronostico.getRonda();
-                    puntosar=puntosPersona/multip;
-                    cuentarondas=0;
-                }
-                cuentarondas++;
-
-                if(fase!=pronostico.getFase()){
-                    if(cuentafase==(puntosPersona/multip-puntosafase)){
-                        puntosPersona=puntosPersona+ masFase;
-                    }
-                    fase=pronostico.getFase();
-                    puntosafase=puntosPersona/multip;
-                    cuentafase=0;
-                }
-                cuentafase++;
-
+            else if (nombrePersona.equals(pronostico.getNombre()) && i != aPro.size() - 1) {
                 puntosPersona = puntosPersona + (pronostico.getPuntos() * multip );
+                partxronda[iter]++;
             }
-
 //            ultima entrada
             else if (i == aPro.size() - 1) {
-                if(ronda!=pronostico.getRonda()){
-                    ronda=pronostico.getRonda();
-                    cuentarondas=1;
-                    puntosar=puntosPersona/multip;
-                }
-
-                if(fase!=pronostico.getFase()){
-                    fase=pronostico.getFase();
-                    cuentafase=1;
-                    puntosafase=puntosPersona/multip;
-                }
-
                 puntosPersona = puntosPersona + (pronostico.getPuntos() * multip);
-                if(cuentarondas==(puntosPersona/multip)-puntosar) {
-                    puntosPersona = puntosPersona + masRonda;
+
+                partxronda[iter]++;
+
+                if(partxronda[iter]==(puntosPersona/multip)){
+                    puntosPersona= puntosPersona + Integer.parseInt(configuracion.get("PuntosRonda"));
+//                  para saber las rondas que tienen ganadas
+//                    if(rondasg.get(nombrePersona)!=null) {
+//                        a = rondasg.get(nombrePersona);
+//                    }
+//                    a[pronostico.getRonda()-1]++;
+//                    rondasg.put(nombrePersona,a);
                 }
 
-
-                if(cuentafase==(puntosPersona/multip-puntosafase)){
-                    puntosPersona=puntosPersona+ masFase;
-                }
                 System.out.println(nombrePersona + " obtuvo " + puntosPersona + " puntos.");
                 }
-
-//            Cambio de nombre
             else {
-                if(cuentarondas==(puntosPersona/multip)-puntosar) {
-                    puntosPersona=puntosPersona + masRonda;
+                if(partxronda[iter]==(puntosPersona/multip)){
+                    puntosPersona= puntosPersona + Integer.parseInt(configuracion.get("PuntosRonda"));
+//                  para saber las rondas que tienen ganadas
+//                    if(rondasg.get(nombrePersona)!=null) {
+//                        a = rondasg.get(nombrePersona);
+//                    }
+//                    a[pronostico.getRonda()-1]++;
+//                    rondasg.put(nombrePersona,a);
                 }
-                ronda=pronostico.getRonda();
-                cuentarondas=1;
-
-                if(cuentafase==(puntosPersona/multip)-puntosafase){
-                    puntosPersona=puntosPersona+ masFase;
-                }
-                fase=pronostico.getFase();
-                cuentafase=1;
-
                 System.out.println(nombrePersona + " obtuvo " + puntosPersona + " puntos.");
+                iter++;
+                partxronda[iter]++;
                 nombrePersona= pronostico.getNombre();
                 puntosPersona= pronostico.getPuntos() * multip;
-
-                puntosar=0;
-                puntosafase=0;
             }
 
 
+//            int[] fases = new int[3];
+//            fases[0]=1;
+//
 //            for (String clave : rondasg.keySet()) {
 //                boolean fase = true;
 //                int[] valores = rondasg.get(clave);
