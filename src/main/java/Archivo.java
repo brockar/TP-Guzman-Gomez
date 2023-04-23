@@ -146,48 +146,51 @@ public class Archivo {
         //!Se puede sacar la primer iteracion afuera haciendo un aPro.get(0) y empezando el for en 1.
         //!Tambien se puede sacar el ultimo si se lo busca en aPro.size
 
-        ArrayList<puntosPersona> $ArrayListDePersonas = new ArrayList<>();
-        ArrayList<String> nombres= new ArrayList<String>();
+//        --------------------------------------------
+//        ArrayList<puntosPersona> $ArrayListDePersonas = new ArrayList<>();
+//        ArrayList<String> nombres= new ArrayList<String>();
+//
+//        ArrayList<Integer> rondaxfase = new ArrayList<Integer>();
+//
+//        int max=0;
+//        for (int i = 0; i < aPro.size(); i++) {
+//            if (i == 0) {
+//                max = aPro.get(i).getFase();
+//            } else {
+//                if (max < aPro.get(i).getFase()) {
+//                    max = aPro.get(i).getFase();
+//                }
+//            }
+//        }
+//
+//        for (int i = 0; i < max; i++) {
+//            rondaxfase.add(0);
+//        }
+//
+//        for (int i = 0; i < aPro.size(); i++) {
+//            if (false && rondaxfase.size() < aPro.get(i).getFase()) {
+//                rondaxfase.add(1);
+//            } else {
+//                if (aPro.get(i).getRonda() > rondaxfase.get(aPro.get(i).getFase()-1)) {
+//                    //rondaxfase.get();
+//                    rondaxfase.set(aPro.get(i).getFase()-1, aPro.get(i).getRonda());
+//                }
+//            }
+//        }
+//
+//        List<String> personas= nombres.stream().distinct().collect(Collectors.toList());
+//
+//        for(String persona:personas){
+//            System.out.println(persona);
+//        }
+//
+//        for(int i = 0; i < rondaxfase.size(); i++){
+//            System.out.println("Fase: " + (i+1) + " Rondas: " + rondaxfase.get(i));
+//        }
+//
+//        int[] puntosxpersona=new int[personas.size()];
+//        ------------------------------------------------------------------------------------
 
-        ArrayList<Integer> rondaxfase = new ArrayList<Integer>();
-
-        int max=0;
-        for (int i = 0; i < aPro.size(); i++) {
-            if (i == 0) {
-                max = aPro.get(i).getFase();
-            } else {
-                if (max < aPro.get(i).getFase()) {
-                    max = aPro.get(i).getFase();
-                }
-            }
-        }
-
-        for (int i = 0; i < max; i++) {
-            rondaxfase.add(0);
-        }
-
-        for (int i = 0; i < aPro.size(); i++) {
-            if (false && rondaxfase.size() < aPro.get(i).getFase()) {
-                rondaxfase.add(1);
-            } else {
-                if (aPro.get(i).getRonda() > rondaxfase.get(aPro.get(i).getFase()-1)) {
-                    //rondaxfase.get();
-                    rondaxfase.set(aPro.get(i).getFase()-1, aPro.get(i).getRonda());
-                }
-            }
-        }
-
-        List<String> personas= nombres.stream().distinct().collect(Collectors.toList());
-
-        for(String persona:personas){
-            System.out.println(persona);
-        }
-
-        for(int i = 0; i < rondaxfase.size(); i++){
-            System.out.println("Fase: " + (i+1) + " Rondas: " + rondaxfase.get(i));
-        }
-
-        int[] puntosxpersona=new int[personas.size()];
 
 //        for (int i = 0; i < aPro.size(); i++) {
 //            for (int j = 0; j < $ArrayListDePersonas.size(); j++) {
@@ -210,70 +213,70 @@ public class Archivo {
 
         //Puntos por partido viejo
 //        //M=2 P=3
-//        int puntosPersona = 0;
-//        String nombrePersona = "";
-//
-//        int[] partxronda = new int[10];
-//        int iter=0;
-//        int multip = Integer.parseInt(configuracion.get("PuntosPart"));
-//
+        int puntosPersona = 0;
+        String nombrePersona = "";
+
+        int[] partxronda = new int[10];
+        int iter=0;
+        int multip = Integer.parseInt(configuracion.get("PuntosPart"));
+
 //        HashMap<String, int[]> rondasg = new HashMap<String, int[]>();
 //        int[] a = new int [10];
-//
-//        //#Tendria que guardarlos en un arraylist con todos los partidos que acertaron y ver si son de la misma ronda y fase para darle bien los puntos extras
-//        //ya que las fases pueden ser de dos rondas no contiguas
-//        for (int i = 0; i < aPro.size(); i++) {
-//            Pronostico pronostico = aPro.get(i);
-////            Primer entrada
-//            if (i == 0) {
-//                nombrePersona = pronostico.getNombre();
-//                puntosPersona = pronostico.getPuntos() * multip ;
-//                partxronda[iter]=1;
-//            }
-////            resto de entradas excepto la ultima
-//            else if (nombrePersona.equals(pronostico.getNombre()) && i != aPro.size() - 1) {
-//                puntosPersona = puntosPersona + (pronostico.getPuntos() * multip );
-//                partxronda[iter]++;
-//            }
-////            ultima entrada
-//            else if (i == aPro.size() - 1) {
-//                puntosPersona = puntosPersona + (pronostico.getPuntos() * multip);
-//
-//                partxronda[iter]++;
-//
-//                if(partxronda[iter]==(puntosPersona/multip)){
-//                    puntosPersona= puntosPersona + Integer.parseInt(configuracion.get("PuntosRonda"));
-////                  para saber las rondas que tienen ganadas
+
+        //#Tendria que guardarlos en un arraylist con todos los partidos que acertaron y ver si son de la misma ronda y fase para darle bien los puntos extras
+        //ya que las fases pueden ser de dos rondas no contiguas
+        for (int i = 0; i < aPro.size(); i++) {
+            Pronostico pronostico = aPro.get(i);
+//            Primer entrada
+            if (i == 0) {
+                nombrePersona = pronostico.getNombre();
+                puntosPersona = pronostico.getPuntos() * multip ;
+                partxronda[iter]=1;
+            }
+//            resto de entradas excepto la ultima
+            else if (nombrePersona.equals(pronostico.getNombre()) && i != aPro.size() - 1) {
+                puntosPersona = puntosPersona + (pronostico.getPuntos() * multip );
+                partxronda[iter]++;
+            }
+//            ultima entrada
+            else if (i == aPro.size() - 1) {
+                puntosPersona = puntosPersona + (pronostico.getPuntos() * multip);
+
+                partxronda[iter]++;
+
+                if(partxronda[iter]==(puntosPersona/multip)){
+                    puntosPersona= puntosPersona + Integer.parseInt(configuracion.get("PuntosRonda"));
+//                  para saber las rondas que tienen ganadas
 //                    if(rondasg.get(nombrePersona)!=null) {
 //                        a = rondasg.get(nombrePersona);
 //                    }
 //                    a[pronostico.getRonda()-1]++;
 //                    rondasg.put(nombrePersona,a);
-//                }
-//
-//                System.out.println(nombrePersona + " obtuvo " + puntosPersona + " puntos.");
-//                }
-//            else {
-//                if(partxronda[iter]==(puntosPersona/multip)){
-//                    puntosPersona= puntosPersona + Integer.parseInt(configuracion.get("PuntosRonda"));
-////                  para saber las rondas que tienen ganadas
+                }
+
+                System.out.println(nombrePersona + " obtuvo " + puntosPersona + " puntos.");
+                }
+            else {
+                if(partxronda[iter]==(puntosPersona/multip)){
+                    puntosPersona= puntosPersona + Integer.parseInt(configuracion.get("PuntosRonda"));
+//                  para saber las rondas que tienen ganadas
 //                    if(rondasg.get(nombrePersona)!=null) {
 //                        a = rondasg.get(nombrePersona);
 //                    }
 //                    a[pronostico.getRonda()-1]++;
 //                    rondasg.put(nombrePersona,a);
-//                }
-//                System.out.println(nombrePersona + " obtuvo " + puntosPersona + " puntos.");
-//                iter++;
-//                partxronda[iter]++;
-//                nombrePersona= pronostico.getNombre();
-//                puntosPersona= pronostico.getPuntos() * multip;
-//            }
+                }
+                System.out.println(nombrePersona + " obtuvo " + puntosPersona + " puntos.");
+                iter++;
+                partxronda[iter]++;
+                nombrePersona= pronostico.getNombre();
+                puntosPersona= pronostico.getPuntos() * multip;
+            }
+
+
+            int[] fases = new int[3];
+            fases[0]=1;
 //
-//
-//            int[] fases = new int[3];
-//            fases[0]=1;
-////
 //            for (String clave : rondasg.keySet()) {
 //                boolean fase = true;
 //                int[] valores = rondasg.get(clave);
@@ -285,7 +288,8 @@ public class Archivo {
 //                    if(fase) puntosPersona=puntosPersona+Integer.parseInt(configuracion.get("PuntosFase"));
 //                }
 //            }
-//        }
+            
+        }
 
 //        for (String clave : rondasg.keySet()) {
 //            int[] valores = rondasg.get(clave);
