@@ -274,8 +274,8 @@ public class Archivo {
             }
 
 
-            int[] fases = new int[3];
-            fases[0]=1;
+//            int[] fases = new int[3];
+//            fases[0]=1;
 //
 //            for (String clave : rondasg.keySet()) {
 //                boolean fase = true;
@@ -288,7 +288,7 @@ public class Archivo {
 //                    if(fase) puntosPersona=puntosPersona+Integer.parseInt(configuracion.get("PuntosFase"));
 //                }
 //            }
-            
+
         }
 
 //        for (String clave : rondasg.keySet()) {
@@ -300,7 +300,7 @@ public class Archivo {
 //            System.out.println();
 //        }
 
-
+//      CONEXION DB---------------------------------------------------
         ///C:\xampp\phpMyAdmin\config.inc.php hay que cambiar la contraseña
 //        String USERDB=configuracion.get("USERDB");
 //        String PASSDB=configuracion.get("PASSDB");
