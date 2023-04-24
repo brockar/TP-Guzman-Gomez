@@ -11,8 +11,7 @@ import java.util.Scanner;
 
 public class Archivo {
     public static void main(String[] args) {
-        //Lectura de configuracion
-
+        //Lectura de configuracion ------------------------------------
         HashMap<String, String> configuracion = new HashMap<>();
         try {
             // Abre el archivo de configuración
@@ -32,14 +31,7 @@ public class Archivo {
             System.err.println(e.getMessage());
         }
 
-        // Imprime los datos de configuración
-//        for (String clave : configuracion.keySet()) {
-//            System.out.println(clave + " = " + configuracion.get(clave));
-//        }
-
         // Lectura PARTIDOS ----------------
-        // Explicacion
-        // https://www.youtube.com/watch?v=WhpP6HWVOb8
         ArrayList<Partido> aP = new ArrayList<>();
         Partido p;
         String[] datos;
@@ -60,14 +52,11 @@ public class Archivo {
 
                 if (correcta) {
                     p = new Partido();
-
                     Equipo e = new Equipo();
                     e.setNombre(datos[1]);
                     p.setEquipo1(e);
-
                     p.setGolesEquipo1(Integer.parseInt(datos[2]));
                     p.setGolesEquipo2(Integer.parseInt(datos[3]));
-
                     e = new Equipo();
                     e.setNombre(datos[4]);
                     p.setEquipo2(e);
@@ -75,7 +64,6 @@ public class Archivo {
                     p.setRonda(Integer.parseInt(datos[5]));
 
                     aP.add(Integer.parseInt(datos[0]), p);
-
                 } else {
                     System.out.println("Algun dato esta mal.");
                 }
@@ -84,19 +72,15 @@ public class Archivo {
             System.out.println("e");
         }
 
-
-        // Lectura PRONOSTICOS -------------------
+        // Lectura PRONOSTICOS -----------------------------
         ArrayList<Pronostico> aPro = new ArrayList<>();
         Pronostico pro;
         String[] datos0;
-
         try (Scanner scFile = new Scanner(new File("src/main/java/pronostico.csv"))) {
             while (scFile.hasNextLine()) {
                 datos0 = scFile.nextLine().split(";");
                 pro = new Pronostico();
-
                 pro.setNumPartido(Integer.parseInt(datos0[0]));
-
                 // Mira que partido es y si existe.
                 boolean existe = false;
                 for (Partido pa : aP) {
@@ -105,7 +89,6 @@ public class Archivo {
                         break;
                     }
                 }
-
                 if (existe) {
                     Equipo e = new Equipo();
                     e.setNombre(datos0[1]);
@@ -120,7 +103,6 @@ public class Archivo {
                     } else if (!datos0[4].isEmpty() && Integer.parseInt(datos0[4]) == 1) {
                         pro.setEquipo(e1);
                     }
-
                     pro.setNombre(datos0[6]);
                     pro.setRonda(Integer.parseInt(datos0[7]));
                     pro.setFase(Integer.parseInt(datos0[8]));
@@ -136,78 +118,7 @@ public class Archivo {
             error1.printStackTrace();
         }
 
-
 //      Recuento PUNTOS  --------------------------------------------
-//      Lo hice con iterador para saber el primero y el ultimo, de al forma for each no tenia manera de comprobar el primero y el ultimo
-        //!Se puede sacar la primer iteracion afuera haciendo un aPro.get(0) y empezando el for en 1.
-        //!Tambien se puede sacar el ultimo si se lo busca en aPro.size
-
-//        --------------------------------------------
-//        ArrayList<puntosPersona> $ArrayListDePersonas = new ArrayList<>();
-//        ArrayList<String> nombres= new ArrayList<String>();
-//
-//        ArrayList<Integer> rondaxfase = new ArrayList<Integer>();
-//
-//        int max=0;
-//        for (int i = 0; i < aPro.size(); i++) {
-//            if (i == 0) {
-//                max = aPro.get(i).getFase();
-//            } else {
-//                if (max < aPro.get(i).getFase()) {
-//                    max = aPro.get(i).getFase();
-//                }
-//            }
-//        }
-//
-//        for (int i = 0; i < max; i++) {
-//            rondaxfase.add(0);
-//        }
-//
-//        for (int i = 0; i < aPro.size(); i++) {
-//            if (false && rondaxfase.size() < aPro.get(i).getFase()) {
-//                rondaxfase.add(1);
-//            } else {
-//                if (aPro.get(i).getRonda() > rondaxfase.get(aPro.get(i).getFase()-1)) {
-//                    //rondaxfase.get();
-//                    rondaxfase.set(aPro.get(i).getFase()-1, aPro.get(i).getRonda());
-//                }
-//            }
-//        }
-//
-//        List<String> personas= nombres.stream().distinct().collect(Collectors.toList());
-//
-//        for(String persona:personas){
-//            System.out.println(persona);
-//        }
-//
-//        for(int i = 0; i < rondaxfase.size(); i++){
-//            System.out.println("Fase: " + (i+1) + " Rondas: " + rondaxfase.get(i));
-//        }
-//
-//        int[] puntosxpersona=new int[personas.size()];
-//        ------------------------------------------------------------------------------------
-
-
-//        for (int i = 0; i < aPro.size(); i++) {
-//            for (int j = 0; j < $ArrayListDePersonas.size(); j++) {
-//                int SumaDePuntosTemporal = 0;
-//                if ((aPro.get(i)).getPuntos() == $ArrayListDePersonas.get(j).getPuntos()) {
-//                    //sumar puntos
-//                    SumaDePuntosTemporal += 0;
-//                }
-//                if (aPro.get(i).getRonda() == $ArrayListDePersonas.get(j).getRondas()) {
-//                    //sumar puntos extra
-//                    SumaDePuntosTemporal += 0;
-//                }
-//                if (aPro.get(i).getFase() == $ArrayListDePersonas.get(j).getFase()) {
-//                    //sumar puntos extra
-//                    SumaDePuntosTemporal += 0;
-//                }
-//                $ArrayListDePersonas.get(j).setPuntos($ArrayListDePersonas.get(j).getPuntos() + SumaDePuntosTemporal);
-//            }
-//        }
-
-        //Puntos por partido viejo
 //      M=4, 1 fase, 1 ronda
 //      P=8, 2 fase, 3 ronda
         int puntosPersona = 0;
@@ -226,11 +137,9 @@ public class Archivo {
         int masRonda = Integer.parseInt(configuracion.get("PuntosRonda"));
         int masFase = Integer.parseInt(configuracion.get("PuntosFase"));
 
-        //#Tendria que guardarlos en un arraylist con todos los partidos que acertaron y ver si son de la misma ronda y fase para darle bien los puntos extras
-        //ya que las fases pueden ser de dos rondas no contiguas
         for (int i = 0; i < aPro.size(); i++) {
             Pronostico pronostico = aPro.get(i);
-//            Primer entrada
+//          Primer entrada
             if (i == 0) {
                 nombrePersona = pronostico.getNombre();
                 puntosPersona = pronostico.getPuntos();
@@ -240,9 +149,10 @@ public class Archivo {
                 cuentarondas++;
                 cuentafase++;
             }
-//          resto de entradas excepto la ultima
-            else if (nombrePersona.equals(pronostico.getNombre()) && i != aPro.size() - 1) {
 
+//          entradas de una misma persona
+            else if (nombrePersona.equals(pronostico.getNombre()) && i != aPro.size() - 1) {
+//              si cambia de ronda en la misma persona
                 if (ronda != pronostico.getRonda()) {
                     if (cuentarondas == (puntosPersona)-paRonda){
                         rondasbien++;
@@ -253,6 +163,7 @@ public class Archivo {
                 }
                 cuentarondas++;
 
+//              si cambia de fase en la misma persona
                 if (fase != pronostico.getFase()) {
                     if (cuentafase == (puntosPersona)-paFase) {
                         fasesbien++;
@@ -295,13 +206,15 @@ public class Archivo {
                 System.out.println(nombrePersona + " obtuvo " + puntosPersona + " puntos.");
             }
 
-//          Cambio de nombre
+//          Cambio de persona
             else {
+//              se fija si la ultima entrada es una ronda aparte
                 if (ronda != pronostico.getRonda()) {
                     cuentarondas = 1;
                     paRonda=puntosPersona;
                 }
 
+//              se fija si la ultima entrada es una fase aparte
                 if (fase != pronostico.getFase()) {
                     cuentafase = 1;
                     paFase=puntosPersona;
@@ -312,6 +225,7 @@ public class Archivo {
                 if (cuentarondas == (puntosPersona-paRonda)) {
                     rondasbien++;
                 }
+//              para la proxima persona
                 paRonda=0;
                 ronda = pronostico.getRonda();
                 cuentarondas = 1;
@@ -319,13 +233,15 @@ public class Archivo {
                 if (cuentafase == (puntosPersona-paFase)) {
                     fasesbien++;
                 }
+//              para la proxima persona
                 paFase=0;
                 fase = pronostico.getFase();
                 cuentafase = 1;
 
                 puntosPersona= (puntosPersona*multip)+(rondasbien*masRonda)+(fasesbien*masFase);
                 System.out.println(nombrePersona + " obtuvo " + puntosPersona + " puntos.");
-//                cambio de persona
+                
+//              cambio de persona
                 nombrePersona = pronostico.getNombre();
                 puntosPersona = pronostico.getPuntos();
 
