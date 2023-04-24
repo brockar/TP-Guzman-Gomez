@@ -121,7 +121,7 @@ public class Archivo {
 
 //      CONEXION DB---------------------------------------------------
         Pronostico pro;
-        ArrayList<Pronostico> aPro = new ArrayList<Pronostico>();
+        ArrayList<Pronostico> aPro = new ArrayList<>();
 
         //C:\xampp\phpMyAdmin\config.inc.php hay que cambiar la contraseña
         String USERDB=configuracion.get("USERDB");
@@ -130,8 +130,8 @@ public class Archivo {
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
 //          Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/tpdatos","root","root");
-//            Connection con=DriverManager.getConnection("jdbc:mysql://"+URLDB,USERDB,PASSDB);
-            Connection con=DriverManager.getConnection("jdbc:mysql://"+URLDB,USERDB,"");
+            Connection con=DriverManager.getConnection("jdbc:mysql://"+URLDB,USERDB,PASSDB);
+//            Connection con=DriverManager.getConnection("jdbc:mysql://"+URLDB,USERDB,"");
             Statement stmt=con.createStatement();
 //             USO DE LA DBl
 
@@ -178,10 +178,6 @@ public class Archivo {
 
 //      TERMINA CONEXION DB
 
-        for(Pronostico p1: aPro){
-
-        }
-
 //      Recuento PUNTOS  --------------------------------------------
 //      M=4, 1 fase, 1 ronda == 6
 //      P=8, 2 fase, 3 ronda == 13
@@ -189,6 +185,8 @@ public class Archivo {
         String nombrePersona = "";
 
         int multip = Integer.parseInt(configuracion.get("PuntosPart"));
+        int masRonda = Integer.parseInt(configuracion.get("PuntosRonda"));
+        int masFase = Integer.parseInt(configuracion.get("PuntosFase"));
         int ronda = 0;
         int fase = 0;
         int cuentarondas = 0;
@@ -198,8 +196,7 @@ public class Archivo {
         int paRonda=0;
         int paFase=0;
 
-        int masRonda = Integer.parseInt(configuracion.get("PuntosRonda"));
-        int masFase = Integer.parseInt(configuracion.get("PuntosFase"));
+
 
         for (int i = 0; i < aPro.size(); i++) {
             Pronostico pronostico = aPro.get(i);
@@ -237,7 +234,6 @@ public class Archivo {
                     cuentafase = 0;
                 }
                 cuentafase++;
-
                 puntosPersona = puntosPersona + (pronostico.getPuntos());
             }
 
@@ -254,7 +250,6 @@ public class Archivo {
                     cuentafase = 1;
                     paFase=puntosPersona;
                 }
-
                 puntosPersona = puntosPersona + (pronostico.getPuntos());
 
                 if (cuentarondas == (puntosPersona-paRonda)) {
@@ -275,16 +270,14 @@ public class Archivo {
 //              se fija si la ultima entrada es una ronda aparte
                 if (ronda != pronostico.getRonda()) {
                     cuentarondas = 1;
-                    paRonda=puntosPersona;
+                    paRonda=puntosPersona-1;
                 }
 
 //              se fija si la ultima entrada es una fase aparte
                 if (fase != pronostico.getFase()) {
                     cuentafase = 1;
-                    paFase=puntosPersona;
+                    paFase=puntosPersona-1;
                 }
-
-                puntosPersona = puntosPersona + (pronostico.getPuntos());
 
                 if (cuentarondas == (puntosPersona-paRonda)) {
                     rondasbien++;
@@ -308,7 +301,6 @@ public class Archivo {
 //              cambio de persona
                 nombrePersona = pronostico.getNombre();
                 puntosPersona = pronostico.getPuntos();
-
                 rondasbien=0;
                 fasesbien=0;
             }
