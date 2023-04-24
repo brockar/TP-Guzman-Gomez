@@ -4,12 +4,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.*;
-import java.time.Year;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 
 public class Archivo {
@@ -50,18 +47,18 @@ public class Archivo {
             while (scFile.hasNextLine()) {
                 //Separa los datos por ;
                 datos = scFile.nextLine().split(";");
-                boolean correcta=false;
+                boolean correcta = false;
 
-                if(datos.length==7){
+                if (datos.length == 7) {
 //                    \\d+ son los enteros en regex
-                    if( datos[0].matches("\\d+") && datos[2].matches("\\d+") && datos[3].matches("\\d+") && datos[5].matches("\\d+") && datos[6].matches("\\d+") ){
-                        if(datos[1]!=null && datos[4]!=null){
-                            correcta=true;
+                    if (datos[0].matches("\\d+") && datos[2].matches("\\d+") && datos[3].matches("\\d+") && datos[5].matches("\\d+") && datos[6].matches("\\d+")) {
+                        if (datos[1] != null && datos[4] != null) {
+                            correcta = true;
                         }
                     }
                 }
 
-                if(correcta){
+                if (correcta) {
                     p = new Partido();
 
                     Equipo e = new Equipo();
@@ -77,10 +74,9 @@ public class Archivo {
                     p.setNumPartido(Integer.parseInt(datos[0]));
                     p.setRonda(Integer.parseInt(datos[5]));
 
-                    aP.add(Integer.parseInt(datos[0]),p);
+                    aP.add(Integer.parseInt(datos[0]), p);
 
-                }
-                else{
+                } else {
                     System.out.println("Algun dato esta mal.");
                 }
             }
@@ -212,23 +208,23 @@ public class Archivo {
 //        }
 
         //Puntos por partido viejo
-//      M=4
-//      P=8 2 fase, 3 ronda
+//      M=4, 1 fase, 1 ronda
+//      P=8, 2 fase, 3 ronda
         int puntosPersona = 0;
         String nombrePersona = "";
 
         int multip = Integer.parseInt(configuracion.get("PuntosPart"));
-        int ronda=0;
-        int fase=0;
-        int cuentarondas=0;
-        int rondasbien=0;
-        int puntosar=0;
-        int cuentafase=0;
-        int puntosafase=0;
-        int fasesbien=0;
+        int ronda = 0;
+        int fase = 0;
+        int cuentarondas = 0;
+        int rondasbien = 0;
+        int puntosar = 0;
+        int cuentafase = 0;
+        int puntosafase = 0;
+        int fasesbien = 0;
 
-        int masRonda=Integer.parseInt(configuracion.get("PuntosRonda"));
-        int masFase=Integer.parseInt(configuracion.get("PuntosFase"))
+        int masRonda = Integer.parseInt(configuracion.get("PuntosRonda"));
+        int masFase = Integer.parseInt(configuracion.get("PuntosFase"));
 
         //#Tendria que guardarlos en un arraylist con todos los partidos que acertaron y ver si son de la misma ronda y fase para darle bien los puntos extras
         //ya que las fases pueden ser de dos rondas no contiguas
@@ -237,111 +233,117 @@ public class Archivo {
 //            Primer entrada
             if (i == 0) {
                 nombrePersona = pronostico.getNombre();
-                puntosPersona = pronostico.getPuntos() * multip ;
+                puntosPersona = pronostico.getPuntos() * multip;
 
-                ronda=pronostico.getRonda();
-                fase=pronostico.getFase();
+                ronda = pronostico.getRonda();
+                fase = pronostico.getFase();
                 cuentarondas++;
                 cuentafase++;
             }
-//            resto de entradas excepto la ultima
-            else if (nombrePersona.equals(pronostico.getNombre()) && i!=aPro.size()-1) {
+//          resto de entradas excepto la ultima
+            else if (nombrePersona.equals(pronostico.getNombre()) && i != aPro.size() - 1) {
 
-                if(ronda!=pronostico.getRonda()){
-                    if(cuentarondas==(puntosPersona/multip)-puntosar) {
-                        puntosPersona=puntosPersona + masRonda;
+                System.out.println("ronda:" +ronda+" cuentarondas: "+cuentarondas+" calc:"+((puntosPersona / multip) - puntosar - (fasesbien * masFase))
+                + " puntosar: "+puntosar+" fb: "+fasesbien);
+
+                if (ronda != pronostico.getRonda()) {
+
+                    if (cuentarondas == (puntosPersona / multip) - puntosar - (fasesbien * masFase)) {
+                        puntosPersona = puntosPersona + masRonda;
                         rondasbien++;
                     }
-                    ronda=pronostico.getRonda();
-                    puntosar=puntosPersona/multip;
-                    cuentarondas=0;
+                    ronda = pronostico.getRonda();
+                    puntosar = puntosPersona / multip;
+                    cuentarondas = 0;
                 }
                 cuentarondas++;
 
-                if(fase!=pronostico.getFase()){
-                    if(cuentafase==(puntosPersona/multip-puntosafase)){
-                        puntosPersona=puntosPersona+ masFase;
+                System.out.println("fase: "+fase+" cuentafase: "+cuentafase+" calc: "+((puntosPersona / multip) - puntosafase - (rondasbien * masRonda))
+                + " puntosafase: "+puntosafase+" rb: "+rondasbien);
+                System.out.println("\n");
+
+                if (fase != pronostico.getFase()) {
+                    if (cuentafase == (puntosPersona / multip) - puntosafase - (rondasbien * masRonda)) {
+                        puntosPersona = puntosPersona + masFase;
+                        fasesbien++;
                     }
-                    fase=pronostico.getFase();
-                    puntosafase=puntosPersona/multip;
-                    cuentafase=0;
+                    fase = pronostico.getFase();
+                    puntosafase = puntosPersona / multip;
+                    cuentafase = 0;
                 }
                 cuentafase++;
 
-                puntosPersona = puntosPersona + (pronostico.getPuntos() * multip );
+                puntosPersona = puntosPersona + (pronostico.getPuntos() * multip);
             }
 
-//            ultima entrada
+//          ultima entrada
             else if (i == aPro.size() - 1) {
-                if(ronda!=pronostico.getRonda()){
-                    ronda=pronostico.getRonda();
-                    cuentarondas=1;
-                    puntosar=puntosPersona/multip;
+
+
+                if (ronda != pronostico.getRonda()) {
+                    ronda = pronostico.getRonda();
+                    cuentarondas = 1;
+                    puntosar = puntosPersona / multip;
                 }
 
-                if(fase!=pronostico.getFase()){
-                    fase=pronostico.getFase();
-                    cuentafase=1;
-                    puntosafase=puntosPersona/multip;
+                if (fase != pronostico.getFase()) {
+                    fase = pronostico.getFase();
+                    cuentafase = 1;
+                    puntosafase = puntosPersona / multip;
                 }
 
                 puntosPersona = puntosPersona + (pronostico.getPuntos() * multip);
-                if(cuentarondas==(puntosPersona/multip)-puntosar) {
+
+                System.out.println("ronda:" +ronda+" cuentarondas: "+cuentarondas+" calc:"+((puntosPersona / multip) - puntosar - (fasesbien * masFase))
+                        + " puntosar: "+puntosar+" fb: "+fasesbien);
+
+                if (cuentarondas == (puntosPersona / multip) - puntosar - (fasesbien * masFase)) {
                     puntosPersona = puntosPersona + masRonda;
                 }
 
+                System.out.println("fase: "+fase+" cuentafase: "+cuentafase+" calc: "+((puntosPersona / multip) - puntosafase - (rondasbien * masRonda))
+                        + " puntosafase: "+puntosafase+" rb: "+rondasbien);
 
-                if(cuentafase==(puntosPersona/multip-puntosafase)){
-                    puntosPersona=puntosPersona+ masFase;
+                if (cuentafase == (puntosPersona / multip) - puntosafase - (rondasbien * masRonda)) {
+                    puntosPersona = puntosPersona + masFase;
                 }
                 System.out.println(nombrePersona + " obtuvo " + puntosPersona + " puntos.");
-                }
 
-//            Cambio de nombre
-            else {
-                if(cuentarondas==(puntosPersona/multip)-puntosar) {
-                    puntosPersona=puntosPersona + masRonda;
-                }
-                ronda=pronostico.getRonda();
-                cuentarondas=1;
-
-                if(cuentafase==(puntosPersona/multip)-puntosafase){
-                    puntosPersona=puntosPersona+ masFase;
-                }
-                fase=pronostico.getFase();
-                cuentafase=1;
-
-                System.out.println(nombrePersona + " obtuvo " + puntosPersona + " puntos.");
-                nombrePersona= pronostico.getNombre();
-                puntosPersona= pronostico.getPuntos() * multip;
-
-                puntosar=0;
-                puntosafase=0;
+                System.out.println("\n");
             }
 
+//          Cambio de nombre
+            else {
 
-//            for (String clave : rondasg.keySet()) {
-//                boolean fase = true;
-//                int[] valores = rondasg.get(clave);
-//                for(int f: fases){
-//                    for(int z=0; z<f;z++){
-//                        if(valores[z]==1)fase=true;
-//                        else fase=false;
-//                    }
-//                    if(fase) puntosPersona=puntosPersona+Integer.parseInt(configuracion.get("PuntosFase"));
-//                }
-//            }
+                System.out.println("ronda:" +ronda+" cuentarondas: "+cuentarondas+" calc:"+((puntosPersona / multip) - puntosar - (fasesbien * masFase))
+                        + " puntosar: "+puntosar+" fb: "+fasesbien);
 
+                if (cuentarondas == (puntosPersona / multip) - puntosar-(fasesbien*masFase)) {
+                    puntosPersona = puntosPersona + masRonda;
+                }
+                ronda = pronostico.getRonda();
+                cuentarondas = 1;
+
+                System.out.println("fase: "+fase+" cuentafase: "+cuentafase+" calc: "+((puntosPersona / multip) - puntosafase - (rondasbien * masRonda))
+                        + " puntosafase: "+puntosafase+" rb: "+rondasbien);
+
+                if (cuentafase == (puntosPersona / multip) - puntosafase-(rondasbien*masRonda)) {
+                    puntosPersona = puntosPersona + masFase;
+                }
+
+                System.out.println("\n");
+
+                fase = pronostico.getFase();
+                cuentafase = 1;
+
+                System.out.println(nombrePersona + " obtuvo " + puntosPersona + " puntos.");
+                nombrePersona = pronostico.getNombre();
+                puntosPersona = pronostico.getPuntos() * multip;
+
+                puntosar = 0;
+                puntosafase = 0;
+            }
         }
-
-//        for (String clave : rondasg.keySet()) {
-//            int[] valores = rondasg.get(clave);
-//            System.out.print("Clave: " + clave + ", Valores: ");
-//            for (int valor : valores) {
-//                System.out.print(valor + " ");
-//            }
-//            System.out.println();
-//        }
 
 //      CONEXION DB---------------------------------------------------
         ///C:\xampp\phpMyAdmin\config.inc.php hay que cambiar la contraseña
@@ -358,6 +360,7 @@ public class Archivo {
 //        }catch (Exception e){
 //            e.printStackTrace();
 //        }
+
 
 
     }
