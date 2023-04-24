@@ -130,7 +130,8 @@ public class Archivo {
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
 //          Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/tpdatos","root","root");
-            Connection con=DriverManager.getConnection("jdbc:mysql://"+URLDB,USERDB,PASSDB);
+//            Connection con=DriverManager.getConnection("jdbc:mysql://"+URLDB,USERDB,PASSDB);
+            Connection con=DriverManager.getConnection("jdbc:mysql://"+URLDB,USERDB,"");
             Statement stmt=con.createStatement();
 //             USO DE LA DBl
 
@@ -153,16 +154,14 @@ public class Archivo {
                     Equipo e1 = new Equipo();
                     e1.setNombre(rs.getString("Equipo2"));
 
-                    if (rs.getInt("GanaEquipo1") == 1) {
+                    if (rs.getInt("GanaEquipo1") !=0  && rs.getInt("GanaEquipo1") ==1 ) {
                         pro.setEquipo(e);
-                    } else if (rs.getInt("GanaEquipo2") == 1) {
+                    } else if (rs.getInt("GanaEquipo2") != 0 && rs.getInt("GanaEquipo2")==1) {
                         pro.setEquipo(e1);
-
                     }
                     pro.setNombre(rs.getString("Nombre"));
                     pro.setRonda(rs.getInt("Ronda"));
                     pro.setFase(rs.getInt("Fase"));
-
 
                     //busca el ResultadoEnum del equipo que aposto y lo agrega
                     pro.setResultado(aP.get(pro.getNumPartido()).resultadoPart(pro.getEquipo()));
@@ -171,7 +170,6 @@ public class Archivo {
                     aPro.add(pro);
                 }
             }
-
 //          TERMINA EL USO
             con.close();
         } catch (SQLException | ClassNotFoundException e) {
@@ -180,6 +178,9 @@ public class Archivo {
 
 //      TERMINA CONEXION DB
 
+        for(Pronostico p1: aPro){
+
+        }
 
 //      Recuento PUNTOS  --------------------------------------------
 //      M=4, 1 fase, 1 ronda == 6

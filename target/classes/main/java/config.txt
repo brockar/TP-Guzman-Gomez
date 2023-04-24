@@ -1,6 +1,6 @@
 PuntosPart=1
-PuntosRonda=1
-PuntosFase=1
+PuntosRonda=0
+PuntosFase=0
 URLDB=localhost:3306/pronosticofinal
 USERDB=root
 PASSDB=root
