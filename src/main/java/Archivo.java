@@ -218,10 +218,10 @@ public class Archivo {
         int fase = 0;
         int cuentarondas = 0;
         int rondasbien = 0;
-        int puntosar = 0;
         int cuentafase = 0;
-        int puntosafase = 0;
         int fasesbien = 0;
+        int paRonda=0;
+        int paFase=0;
 
         int masRonda = Integer.parseInt(configuracion.get("PuntosRonda"));
         int masFase = Integer.parseInt(configuracion.get("PuntosFase"));
@@ -233,7 +233,7 @@ public class Archivo {
 //            Primer entrada
             if (i == 0) {
                 nombrePersona = pronostico.getNombre();
-                puntosPersona = pronostico.getPuntos() * multip;
+                puntosPersona = pronostico.getPuntos();
 
                 ronda = pronostico.getRonda();
                 fase = pronostico.getFase();
@@ -243,105 +243,94 @@ public class Archivo {
 //          resto de entradas excepto la ultima
             else if (nombrePersona.equals(pronostico.getNombre()) && i != aPro.size() - 1) {
 
-                System.out.println("ronda:" +ronda+" cuentarondas: "+cuentarondas+" calc:"+((puntosPersona / multip) - puntosar - (fasesbien * masFase))
-                + " puntosar: "+puntosar+" fb: "+fasesbien);
-
                 if (ronda != pronostico.getRonda()) {
-
-                    if (cuentarondas == (puntosPersona / multip) - puntosar - (fasesbien * masFase)) {
-                        puntosPersona = puntosPersona + masRonda;
+                    if (cuentarondas == (puntosPersona)-paRonda){
                         rondasbien++;
+                        paRonda=puntosPersona;
                     }
                     ronda = pronostico.getRonda();
-                    puntosar = puntosPersona / multip;
-                    cuentarondas = 0;
+                    cuentarondas=0;
                 }
                 cuentarondas++;
 
-                System.out.println("fase: "+fase+" cuentafase: "+cuentafase+" calc: "+((puntosPersona / multip) - puntosafase - (rondasbien * masRonda))
-                + " puntosafase: "+puntosafase+" rb: "+rondasbien);
-                System.out.println("\n");
-
                 if (fase != pronostico.getFase()) {
-                    if (cuentafase == (puntosPersona / multip) - puntosafase - (rondasbien * masRonda)) {
-                        puntosPersona = puntosPersona + masFase;
+                    if (cuentafase == (puntosPersona)-paFase) {
                         fasesbien++;
+                        paFase=puntosPersona;
                     }
                     fase = pronostico.getFase();
-                    puntosafase = puntosPersona / multip;
                     cuentafase = 0;
                 }
                 cuentafase++;
 
-                puntosPersona = puntosPersona + (pronostico.getPuntos() * multip);
+                puntosPersona = puntosPersona + (pronostico.getPuntos());
             }
 
 //          ultima entrada
             else if (i == aPro.size() - 1) {
-
-
                 if (ronda != pronostico.getRonda()) {
                     ronda = pronostico.getRonda();
                     cuentarondas = 1;
-                    puntosar = puntosPersona / multip;
+                    paRonda=puntosPersona;
                 }
 
                 if (fase != pronostico.getFase()) {
                     fase = pronostico.getFase();
                     cuentafase = 1;
-                    puntosafase = puntosPersona / multip;
+                    paFase=puntosPersona;
                 }
 
-                puntosPersona = puntosPersona + (pronostico.getPuntos() * multip);
+                puntosPersona = puntosPersona + (pronostico.getPuntos());
 
-                System.out.println("ronda:" +ronda+" cuentarondas: "+cuentarondas+" calc:"+((puntosPersona / multip) - puntosar - (fasesbien * masFase))
-                        + " puntosar: "+puntosar+" fb: "+fasesbien);
-
-                if (cuentarondas == (puntosPersona / multip) - puntosar - (fasesbien * masFase)) {
-                    puntosPersona = puntosPersona + masRonda;
+                if (cuentarondas == (puntosPersona-paRonda)) {
+                    rondasbien++;
                 }
 
-                System.out.println("fase: "+fase+" cuentafase: "+cuentafase+" calc: "+((puntosPersona / multip) - puntosafase - (rondasbien * masRonda))
-                        + " puntosafase: "+puntosafase+" rb: "+rondasbien);
-
-                if (cuentafase == (puntosPersona / multip) - puntosafase - (rondasbien * masRonda)) {
-                    puntosPersona = puntosPersona + masFase;
+                if (cuentafase == (puntosPersona-paFase)) {
+                    fasesbien++;
                 }
+
+//              agrega puntos de rondas y fases
+                puntosPersona = (puntosPersona*multip)+(rondasbien*masRonda)+(fasesbien*masFase);
                 System.out.println(nombrePersona + " obtuvo " + puntosPersona + " puntos.");
-
-                System.out.println("\n");
             }
 
 //          Cambio de nombre
             else {
-
-                System.out.println("ronda:" +ronda+" cuentarondas: "+cuentarondas+" calc:"+((puntosPersona / multip) - puntosar - (fasesbien * masFase))
-                        + " puntosar: "+puntosar+" fb: "+fasesbien);
-
-                if (cuentarondas == (puntosPersona / multip) - puntosar-(fasesbien*masFase)) {
-                    puntosPersona = puntosPersona + masRonda;
+                if (ronda != pronostico.getRonda()) {
+                    cuentarondas = 1;
+                    paRonda=puntosPersona;
                 }
+
+                if (fase != pronostico.getFase()) {
+                    cuentafase = 1;
+                    paFase=puntosPersona;
+                }
+
+                puntosPersona = puntosPersona + (pronostico.getPuntos());
+
+                if (cuentarondas == (puntosPersona-paRonda)) {
+                    rondasbien++;
+                }
+                paRonda=0;
                 ronda = pronostico.getRonda();
                 cuentarondas = 1;
 
-                System.out.println("fase: "+fase+" cuentafase: "+cuentafase+" calc: "+((puntosPersona / multip) - puntosafase - (rondasbien * masRonda))
-                        + " puntosafase: "+puntosafase+" rb: "+rondasbien);
-
-                if (cuentafase == (puntosPersona / multip) - puntosafase-(rondasbien*masRonda)) {
-                    puntosPersona = puntosPersona + masFase;
+                if (cuentafase == (puntosPersona-paFase)) {
+                    fasesbien++;
                 }
-
-                System.out.println("\n");
-
+                paFase=0;
                 fase = pronostico.getFase();
                 cuentafase = 1;
 
+                puntosPersona= (puntosPersona*multip)+(rondasbien*masRonda)+(fasesbien*masFase);
                 System.out.println(nombrePersona + " obtuvo " + puntosPersona + " puntos.");
+//                cambio de persona
                 nombrePersona = pronostico.getNombre();
-                puntosPersona = pronostico.getPuntos() * multip;
+                puntosPersona = pronostico.getPuntos();
 
-                puntosar = 0;
-                puntosafase = 0;
+                rondasbien=0;
+                fasesbien=0;
             }
         }
 
