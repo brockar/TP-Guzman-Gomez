@@ -24,6 +24,9 @@
       <object connection-id="5557df28-4bca-440a-ab0c-6be3d6ac2dc2" object-ref="schemas/pronosticofinal/tables/tabla1" />
     </open-files>
   </component>
+  <component name="DBNavigator.Project.DatabaseSessionManager">
+    <connection id="5557df28-4bca-440a-ab0c-6be3d6ac2dc2" />
+  </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
     <filter-actions connection-id="5557df28-4bca-440a-ab0c-6be3d6ac2dc2" dataset="pronosticofinal.tabla1" active-filter-id="EMPTY_FILTER" />
   </component>
@@ -46,7 +49,7 @@
     <connections>
       <connection id="5557df28-4bca-440a-ab0c-6be3d6ac2dc2" active="true" signed="true">
         <database>
-          <name value="Connection" />
+          <name value="pronostico" />
           <description value="" />
           <database-type value="MYSQL" />
           <config-type value="BASIC" />

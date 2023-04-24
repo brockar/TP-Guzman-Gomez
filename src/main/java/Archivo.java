@@ -90,18 +90,19 @@ public class Archivo {
 
 
         // Lectura PRONOSTICOS -------------------
-        ArrayList<Pronostico> aPro = new ArrayList<>();
         Pronostico pro;
-        String[] datos0;
+        List<String> aPro = new ArrayList<String>();
 
-        try (Scanner scFile = new Scanner(new File("src/main/java/pronostico.csv"))) {
-            while (scFile.hasNextLine()) {
-                datos0 = scFile.nextLine().split(";");
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pronosticofinal", "root", "");
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM tabla1");
+            while (rs.next()) {
                 pro = new Pronostico();
 
-                pro.setNumPartido(Integer.parseInt(datos0[0]));
+                pro.setNumPartido(rs.getInt("NumPartido"));
 
-                // Mira que partido es y si existe.
                 boolean existe = false;
                 for (Partido pa : aP) {
                     if (pa.getNumPartido() == pro.getNumPartido()) {
@@ -109,36 +110,39 @@ public class Archivo {
                         break;
                     }
                 }
-
                 if (existe) {
                     Equipo e = new Equipo();
-                    e.setNombre(datos0[1]);
+                    e.setNombre(rs.getString("Equipo1"));
                     Equipo e1 = new Equipo();
-                    e1.setNombre(datos0[5]);
-                    //Se fija por quien aposto el del pronostico
-                    //Si esta marcado la columna 1 es que apuesta por el equipo1 (e),
-                    //Si esta marcada la columna 3 es que apuesta por el equipo2 (e1),
-                    //Si esta marcada la columna del medio es empate, por lo tanto no se asigna equipo.
-                    if (!datos0[2].isEmpty() && Integer.parseInt(datos0[2]) == 1) {
-                        pro.setEquipo(e);
-                    } else if (!datos0[4].isEmpty() && Integer.parseInt(datos0[4]) == 1) {
-                        pro.setEquipo(e1);
-                    }
+                    e1.setNombre(rs.getString("Equipo2"));
 
-                    pro.setNombre(datos0[6]);
-                    pro.setRonda(Integer.parseInt(datos0[7]));
-                    pro.setFase(Integer.parseInt(datos0[8]));
+
+                    if (rs.getInt("GanaEquipo1") == 1) {
+                        pro.setEquipo(e);
+                    } else if (rs.getInt("GanaEquipo2") == 1) {
+                        pro.setEquipo(e1);
+
+                    }
+                    pro.setNombre("Nombre");
+                    pro.setRonda(Integer.parseInt("Ronda"));
+                    pro.setFase(Integer.parseInt("Fase"));
+
 
                     //busca el ResultadoEnum del equipo que aposto y lo agrega
                     pro.setResultado(aP.get(pro.getNumPartido()).resultadoPart(pro.getEquipo()));
                     //Agrega los puntos correspondientes a los que tenia.
                     pro.setPuntos(pro.fpuntos());
-                    aPro.add(pro);
+                    aPro.add(String.valueOf(pro));
+
                 }
+
+
             }
-        } catch (Exception error1) {
-            error1.printStackTrace();
+
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
+
 
 
 //      Recuento PUNTOS  --------------------------------------------
@@ -228,7 +232,7 @@ public class Archivo {
         int fasesbien=0;
 
         int masRonda=Integer.parseInt(configuracion.get("PuntosRonda"));
-        int masFase=Integer.parseInt(configuracion.get("PuntosFase"))
+        int masFase=Integer.parseInt(configuracion.get("PuntosFase"));
 
         //#Tendria que guardarlos en un arraylist con todos los partidos que acertaron y ver si son de la misma ronda y fase para darle bien los puntos extras
         //ya que las fases pueden ser de dos rondas no contiguas
@@ -360,8 +364,8 @@ public class Archivo {
 //        }
 
 
-    }
-}
+    }}
+
 /*
 Entrega 3
 En esta entrega se deben poder leer los pronósticos desde una base de datos MySQL.
