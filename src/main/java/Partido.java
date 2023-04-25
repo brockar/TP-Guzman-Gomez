@@ -6,7 +6,6 @@ public class Partido {
     private int golesEquipo1;
     private int golesEquipo2;
     private int ronda;
-
     private int fase;
 
     public ResultadoEnum resultadoPart(Equipo equipo) {
