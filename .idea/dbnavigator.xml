@@ -20,9 +20,7 @@
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files>
-      <object connection-id="5557df28-4bca-440a-ab0c-6be3d6ac2dc2" object-ref="schemas/pronosticofinal/tables/tabla1" />
-    </open-files>
+    <open-files />
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
     <filter-actions connection-id="5557df28-4bca-440a-ab0c-6be3d6ac2dc2" dataset="pronosticofinal.tabla1" active-filter-id="EMPTY_FILTER" />

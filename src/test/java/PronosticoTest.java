@@ -5,11 +5,12 @@ import static org.junit.Assert.assertEquals;
 
 public class PronosticoTest {
 
-    private Equipo equipoPRO1;
-    private Equipo equipoPRO2;
-    private Partido partidoPRO;
     @Test
     public void testAciertos() {
+        Partido partidoPRO = new Partido();
+        Equipo equipoPRO1= new Equipo();
+        Equipo equipoPRO2 = new Equipo();
+
         equipoPRO1.setNombre("Argentina");
         partidoPRO.setEquipo1(equipoPRO1);
 
@@ -31,8 +32,7 @@ public class PronosticoTest {
         int puntos= test.fpuntos();
         assertEquals(1,puntos);
 
-
-
+        
     }
 
 
