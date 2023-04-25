@@ -1,4 +1,4 @@
- mysql -u root -h localhost -p"root"
+ mysql -u root -h localhost -p
 CREATE DATABASE Pronosticofinal;
 USE pronosticofinal;
  CREATE TABLE tabla1(

@@ -71,7 +71,7 @@ public class Archivo {
             System.out.println("e");
         }
 
-        // Lectura PRONOSTICOS -----------------------------
+// //     PRONOSTICOS .csv -----------------------------
 //        ArrayList<Pronostico> aPro = new ArrayList<>();
 //        Pronostico pro;
 //        String[] datos0;
@@ -117,9 +117,9 @@ public class Archivo {
 //            error1.printStackTrace();
 //        }
 
-//      TERMINA lectura de PRONOSTICOS
+// //   TERMINA PRONOSTICOS .csv
 
-//      CONEXION DB---------------------------------------------------
+// //   CONEXION DB---------------------------------------------------
         Pronostico pro;
         ArrayList<Pronostico> aPro = new ArrayList<>();
 
@@ -176,7 +176,7 @@ public class Archivo {
             throw new RuntimeException(e);
         }
 
-//      TERMINA CONEXION DB
+//  //  TERMINA CONEXION DB --------------------------------------
 
 //      Recuento PUNTOS  --------------------------------------------
 //      M=4, 1 fase, 1 ronda == 6
