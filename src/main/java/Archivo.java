@@ -62,7 +62,7 @@ public class Archivo {
                     p.setNumPartido(Integer.parseInt(datos[0]));
                     p.setRonda(Integer.parseInt(datos[5]));
                     p.setFase(Integer.parseInt(datos[6]));
-                    
+
                     aP.add(Integer.parseInt(datos[0]), p);
                 } else {
                     System.out.println("Algun dato esta mal.");

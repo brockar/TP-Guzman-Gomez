@@ -1,0 +1,32 @@
+ mysql -u root -h localhost -p
+CREATE DATABASE Pronosticofinal;
+USE pronosticofinal;
+ CREATE TABLE tabla1(
+     NumPartido int(1) unsigned not null,
+     Equipo1 varchar(20),
+     GanaEquipo1 int(1),
+     Empate int(1),
+     GanaEquipo2 int(1),
+     Equipo2 varchar(20),
+     Nombre varchar(10),
+     Ronda int(1),
+     Fase int(1));
+INSERT INTO tabla1 (NumPartido,Equipo1,GanaEquipo1,Empate,GanaEquipo2,Equipo2,Nombre,Ronda,Fase) VALUES
+   (0,"Argentina",1,NULL,NULL,"Arabia Saudita","Mariana",1,1),
+   (1,"Polonia",NULL,1,NULL,"Mexico","Mariana",1,1),
+   (2,"Argentina",NULL,1,NULL,"Mexico","Mariana",2,1),
+   (3,"Arabia Saudita",NULL,NULL,1,"Polonia","Mariana",2,1),
+   (4,"Argentina",NULL,NULL,1,"Paises Bajos","Mariana",3,2),
+   (5,"Croacia",NULL,1,NULL,"Brasil","Mariana",3,2),
+   (6,"Francia",1,NULL,NULL,"Inglaterra","Mariana",3,2),
+   (7,"Portugal",NULL,NULL,1,"Marruecos","Mariana",3,2),
+   (8,"Argentina",1,NULL,NULL,"Francia","Mariana",4,3),
+   (0,"Argentina",NULL,NULL,1,"Arabia Saudita","Pedro",1,1),
+   (1,"Polonia",NULL,1,NULL,"Mexico","Pedro",1,1),
+   (2,"Argentina",1,NULL,NULL,"Mexico","Pedro",2,1),
+   (3,"Arabia Saudita",NULL,NULL,1,"Polonia","Pedro",2,1),
+   (4,"Argentina",1,NULL,NULL,"Paises Bajos","Pedro",3,2),
+   (5,"Croacia",NULL,1,NULL,"Brasil","Pedro",3,2),
+   (6,"Francia",1,NULL,NULL,"Inglaterra","Pedro",3,2),
+   (7,"Portugal",1,NULL,NULL,"Marruecos","Pedro",3,2),
+   (8,"Argentina",1,NULL,NULL,"Francia","Pedro",4,3);
