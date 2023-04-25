@@ -1,12 +1,13 @@
 //package tp;
 public class Pronostico {
     private int numPartido;
-    private Equipo equipo;
-    private ResultadoEnum resultado;
-    private int puntos;
-    private String nombre;
     private int ronda;
     private int fase;
+    private Equipo equipo;
+    private String nombre;
+    private ResultadoEnum resultado;
+    private int puntos;
+
 
     public int fpuntos() {
         int r = 0;
